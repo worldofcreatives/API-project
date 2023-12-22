@@ -6,6 +6,8 @@ const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
+const routes = require('./routes');
+
 const { ValidationError } = require('sequelize');
 
 const { environment } = require('./config');
@@ -41,9 +43,6 @@ if (!isProduction) {
       }
     })
   );
-
-
-const routes = require('./routes');
 
 app.use(routes); // Connect all the routes
 
