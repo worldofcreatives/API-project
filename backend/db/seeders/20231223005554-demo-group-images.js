@@ -9,37 +9,37 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('GroupImages', [
       {
-        groupId: 16,
+        groupId: 1,
         url: 'image url',
-        isPreview: true,
+        preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        groupId: 17,
+        groupId: 2,
         url: 'image url',
-        isPreview: false,
+        preview: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        groupId: 18,
+        groupId: 3,
         url: 'image url',
-        isPreview: true,
+        preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        groupId: 19,
+        groupId: 4,
         url: 'image url',
-        isPreview: true,
+        preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        groupId: 20,
+        groupId: 5,
         url: 'image url',
-        isPreview: true,
+        preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       }

@@ -9,7 +9,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Venues', [
       {
-        groupId: 16,
+        groupId: 1,
         address: '123 Tech Rd',
         city: 'Techville',
         state: 'Techas',
@@ -19,7 +19,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        groupId: 17,
+        groupId: 2,
         address: '456 Innovation Ave',
         city: 'Innovate City',
         state: 'Creativia',
@@ -29,7 +29,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        groupId: 16,
+        groupId: 1,
         address: '789 Startup Blvd',
         city: 'Entrepreneur Town',
         state: 'Founderland',
@@ -39,7 +39,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        groupId: 17,
+        groupId: 3,
         address: '101 Data Dr',
         city: 'Server City',
         state: 'Compute',
@@ -49,7 +49,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        groupId: 20,
+        groupId: 4,
         address: '202 AI Lane',
         city: 'Robotics Village',
         state: 'Automation',

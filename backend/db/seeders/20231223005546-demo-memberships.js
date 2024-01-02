@@ -9,36 +9,36 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Memberships', [
       {
-        userId: 6, // Replace with actual user IDs from Users table
-        groupId: 16, // Replace with actual group IDs from Groups table
+        userId: 1, // Replace with actual user IDs from Users table
+        groupId: 1, // Replace with actual group IDs from Groups table
         role: 'admin',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        userId: 12,
-        groupId: 17,
+        userId: 2,
+        groupId: 2,
         role: 'member',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        userId: 13,
-        groupId: 16,
+        userId: 2,
+        groupId: 2,
         role: 'moderator',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        userId: 14,
-        groupId: 18,
+        userId: 1,
+        groupId: 3,
         role: 'member',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        userId: 12,
-        groupId: 19,
+        userId: 1,
+        groupId: 3,
         role: 'admin',
         createdAt: new Date(),
         updatedAt: new Date()

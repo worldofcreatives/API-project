@@ -12,11 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       // this.belongsTo(models.User, { foreignKey: 'organizerId' });
-      Group.hasMany(models.Event, { foreignKey: 'groupId' });
-      Group.belongsTo(models.User, { foreignKey: 'organizerId' });
-      Group.hasMany(models.Membership, { foreignKey: 'groupId' });
-      Group.hasMany(models.Venue, { foreignKey: 'groupId' });
-      Group.hasMany(models.GroupImage, { foreignKey: 'groupId' });
+      Group.hasMany(models.Event, { foreignKey: 'groupId', as: 'events' });
+      Group.belongsTo(models.User, { foreignKey: 'organizerId', as: 'organizer' });
+      Group.hasMany(models.Membership, { foreignKey: 'groupId', as: 'memberships' });
+      Group.hasMany(models.Venue, { foreignKey: 'groupId', as: 'venues' });
+      Group.hasMany(models.GroupImage, { foreignKey: 'groupId', as: 'groupImages' });
     }
   }
 
@@ -29,7 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     organizerId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: { model: "Users", key: "id" },
     },
     name: {
       type: DataTypes.STRING,
@@ -59,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Group',
     // If you're using schemas, you might want to add the following:
-    schema: process.env.SCHEMA || 'public', // Default to 'public' or your default schema
+    // schema: process.env.SCHEMA || 'public', // Default to 'public' or your default schema
     tableName: 'Groups',
     timestamps: true, // Assuming you want Sequelize to handle `createdAt` and `updatedAt`
   });

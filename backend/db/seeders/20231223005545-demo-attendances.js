@@ -10,35 +10,35 @@ module.exports = {
     await queryInterface.bulkInsert('Attendances', [
       {
         eventId: 1,
-        userId: 6,
+        userId: 1,
         status: 'attending',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         eventId: 1,
-        userId: 12,
+        userId: 2,
         status: 'waitlist',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         eventId: 2,
-        userId: 13,
+        userId: 1,
         status: 'pending',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         eventId: 3,
-        userId: 6,
+        userId: 3,
         status: 'attending',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         eventId: 4,
-        userId: 14,
+        userId: 1,
         status: 'attending',
         createdAt: new Date(),
         updatedAt: new Date()

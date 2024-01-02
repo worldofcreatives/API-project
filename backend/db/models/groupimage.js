@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    isPreview: {
+    preview: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false // Assume by default the image is not a preview image

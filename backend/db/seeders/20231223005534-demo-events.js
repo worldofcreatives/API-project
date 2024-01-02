@@ -10,7 +10,7 @@ module.exports = {
     await queryInterface.bulkInsert('Events', [
       {
         venueId: 1, // valid venue IDs
-        groupId: 16, // valid group IDs
+        groupId: 1, // valid group IDs
         name: 'Tech Conference 2021',
         description: 'An annual conference for tech enthusiasts.',
         type: 'In person',
@@ -23,7 +23,7 @@ module.exports = {
       },
       {
         venueId: 2,
-        groupId: 17,
+        groupId: 2,
         name: 'Local Hack Day',
         description: 'Hackathon event for local developers.',
         type: 'In person',
@@ -36,7 +36,7 @@ module.exports = {
       },
       {
         venueId: 1,
-        groupId: 16,
+        groupId: 1,
         name: 'Virtual Reality Expo',
         description: 'Explore the latest in VR technology.',
         type: 'Online',
@@ -49,7 +49,7 @@ module.exports = {
       },
       {
         venueId: 3,
-        groupId: 18,
+        groupId: 3,
         name: 'Outdoor Photography Workshop',
         description: 'Learn outdoor photography techniques.',
         type: 'In person',
@@ -62,7 +62,7 @@ module.exports = {
       },
       {
         venueId: 2,
-        groupId: 20,
+        groupId: 4,
         name: 'Cooking Masterclass',
         description: 'Cooking class by renowned chef.',
         type: 'Online',
