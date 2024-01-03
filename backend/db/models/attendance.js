@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       // this.belongsTo(models.User, { foreignKey: 'userId' });
       // this.belongsTo(models.Event, { foreignKey: 'eventId' });
-      Attendance.belongsTo(models.Event, { foreignKey: 'eventId' });
-      Attendance.belongsTo(models.User, { foreignKey: 'userId' });
+      Attendance.belongsTo(models.Event, { foreignKey: 'eventId', as: 'event' });
+      Attendance.belongsTo(models.User, { foreignKey: 'userId',  as: 'user' });
 
 
     }
