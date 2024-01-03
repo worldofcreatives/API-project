@@ -10,6 +10,7 @@ const { requireAuth } = require("../../utils/auth");
 const { Sequelize } = require("sequelize");
 
 const { check, validationResult } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
@@ -33,7 +34,26 @@ const validateGroup = [
   check('state')
     .notEmpty()
     .withMessage('State is required'),
+    handleValidationErrors
 ];
+
+async function isAuthorizedUser(userId, groupId) {
+  const group = await Group.findByPk(groupId);
+  if (!group) return false; // Group doesn't exist
+
+  if (group.organizerId === userId) return true; // User is the organizer
+
+  // Check if user is a co-host
+  const membership = await Membership.findOne({
+    where: {
+      groupId: groupId,
+      userId: userId,
+      status: "co-host"
+    }
+  });
+
+  return !!membership; // true if membership exists and user is a co-host, false otherwise
+}
 
 router.post('/', requireAuth, validateGroup, async (req, res, next) => {
 
@@ -252,7 +272,7 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
       preview
     });
 
-    // Construct the response object with only some fields
+    // Construct the response object
     const responseImage = {
       id: image.id,
       url: image.url,
@@ -266,22 +286,7 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
 });
 
 // Edit a group
-
-//🚨 my error is not showing the right stuff
 router.put('/:groupId', requireAuth, validateGroup, async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const formattedErrors = errors.array().reduce((acc, err) => {
-      acc[err.param] = err.msg;
-      return acc;
-    }, {});
-
-    return res.status(400).json({
-      message: "Bad Request",
-      errors: formattedErrors
-    });
-  }
-
   try {
     const groupId = parseInt(req.params.groupId, 10);
     if (isNaN(groupId)) {
@@ -302,7 +307,7 @@ router.put('/:groupId', requireAuth, validateGroup, async (req, res, next) => {
 
     const updatedGroup = await group.update({ name, about, type, private, city, state });
 
-    const responseGroup = {
+    res.status(200).json({
       id: updatedGroup.id,
       organizerId: updatedGroup.organizerId,
       name: updatedGroup.name,
@@ -313,13 +318,12 @@ router.put('/:groupId', requireAuth, validateGroup, async (req, res, next) => {
       state: updatedGroup.state,
       createdAt: updatedGroup.createdAt,
       updatedAt: updatedGroup.updatedAt
-    };
-
-    res.status(200).json(responseGroup);
+    });
   } catch (err) {
     next(err);
   }
 });
+
 
 // Delete a group
 router.delete('/:groupId', requireAuth, async (req, res, next) => {
@@ -346,5 +350,59 @@ router.delete('/:groupId', requireAuth, async (req, res, next) => {
     next(err);
   }
 });
+
+// Get All Venues for a Group specified by its id
+
+router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
+  try {
+    const groupId = parseInt(req.params.groupId, 10);
+    if (isNaN(groupId)) {
+      return res.status(400).json({ message: "Invalid group ID" });
+    }
+
+    if (!(await isAuthorizedUser(req.user.id, groupId))) {
+      return res.status(403).json({ message: "You must be the organizer or a co-host of the group to view venues." });
+    }
+
+    const venues = await Venue.findAll({ where: { groupId } });
+    res.status(200).json({ Venues: venues });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Create a new Venue for a Group specified by its id
+router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
+  try {
+    const groupId = parseInt(req.params.groupId, 10);
+    if (isNaN(groupId)) {
+      return res.status(400).json({ message: "Invalid group ID" });
+    }
+
+    if (!(await isAuthorizedUser(req.user.id, groupId))) {
+      return res.status(403).json({ message: "You must be the organizer or a co-host of the group to add venues." });
+    }
+
+    const { address, city, state, lat, lng } = req.body;
+
+    const newVenue = await Venue.create({
+      groupId,
+      address,
+      city,
+      state,
+      lat,
+      lng
+    });
+
+    res.status(200).json(newVenue);
+  } catch (err) {
+    if (err.name === 'SequelizeValidationError') {
+      const errors = err.errors.reduce((acc, cur) => ({ ...acc, [cur.path]: cur.message }), {});
+      return res.status(400).json({ message: "Bad Request", errors });
+    }
+    next(err);
+  }
+});
+
 
 module.exports = router;

@@ -2,44 +2,44 @@
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  // define your schema in options object
+  options.schema = process.env.SCHEMA;
 }
 
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Memberships', [
       {
-        userId: 1, // Replace with actual user IDs from Users table
-        groupId: 1, // Replace with actual group IDs from Groups table
-        role: 'admin',
+        userId: 1,
+        groupId: 1,
+        status: 'co-host',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         userId: 2,
         groupId: 2,
-        role: 'member',
+        status: 'member',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         userId: 2,
         groupId: 2,
-        role: 'moderator',
+        status: 'pending',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         userId: 1,
         groupId: 3,
-        role: 'member',
+        status: 'member',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         userId: 1,
         groupId: 3,
-        role: 'admin',
+        status: 'co-host',
         createdAt: new Date(),
         updatedAt: new Date()
       }

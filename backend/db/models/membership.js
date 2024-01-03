@@ -43,8 +43,8 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-    role: {
-      type: DataTypes.ENUM('member', 'admin', 'moderator'), // Adjust as per your specific use case
+    status: {
+      type: DataTypes.ENUM('member', 'co-host', 'pending'), // Adjust as per your specific use case
       allowNull: false
     }
   }, {

@@ -36,8 +36,8 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
-      role: {
-        type: Sequelize.ENUM('member', 'admin', 'moderator'), // adjust roles as needed
+      status: {
+        type: Sequelize.ENUM('member', 'co-host', 'pending'), // adjust roles as needed
         allowNull: false
       },
       createdAt: {
