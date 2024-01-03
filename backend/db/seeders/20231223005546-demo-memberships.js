@@ -1,5 +1,7 @@
 'use strict';
 
+const { Membership } = require('../models');
+
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
@@ -7,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('Memberships', [
+    await Membership.bulkCreate([
       {
         userId: 1,
         groupId: 1,
@@ -43,7 +45,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       }
-    ], {});
+    ], { validate: true });
   },
 
   async down (queryInterface, Sequelize) {
