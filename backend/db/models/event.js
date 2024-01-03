@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     venueId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'Venue',
         key: 'id'
@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     price: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: true
     },
     startDate: {

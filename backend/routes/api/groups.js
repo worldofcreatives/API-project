@@ -5,6 +5,9 @@ const {
   User,
   Membership,
   Venue,
+  Attendance,
+  Event,
+  EventImage
 } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
 const { Sequelize } = require("sequelize");
@@ -35,6 +38,18 @@ const validateGroup = [
     .notEmpty()
     .withMessage('State is required'),
     handleValidationErrors
+];
+
+// Validation middleware for creating an event
+const validateEvent = [
+  check('name').isLength({ min: 5 }).withMessage('Name must be at least 5 characters'),
+  check('type').isIn(['Online', 'In person']).withMessage('Type must be Online or In person'),
+  check('capacity').isInt().withMessage('Capacity must be an integer'),
+  check('price').isFloat().withMessage('Price is invalid'),
+  check('description').notEmpty().withMessage('Description is required'),
+  check('startDate').isISO8601().withMessage('Start date must be in the future'),
+  check('endDate').isISO8601().withMessage('End date is less than start date'),
+  handleValidationErrors
 ];
 
 async function isAuthorizedUser(userId, groupId) {
@@ -403,6 +418,141 @@ router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
     next(err);
   }
 });
+
+// Get all Events of a Group specified by its id
+
+router.get('/:groupId/events', async (req, res, next) => {
+  const groupId = parseInt(req.params.groupId, 10); // Parse groupId from URL params
+
+  // Validate groupId is a number
+  if (isNaN(groupId)) {
+    return res.status(400).json({ message: "Invalid group ID" });
+  }
+
+  try {
+    // Check if the group exists
+    const groupExists = await Group.findByPk(groupId);
+    if (!groupExists) {
+      return res.status(404).json({ message: "Group couldn't be found" });
+    }
+
+    // Find all events for the given groupId
+    const events = await Event.findAll({
+      where: { groupId }, // Filter events by groupId
+      include: [
+        // Include other models as needed
+        { model: Group, as: 'group', attributes: ['id', 'name', 'city', 'state'] },
+        { model: Venue, as: 'venue', attributes: ['id', 'city', 'state'] },
+        { model: Attendance, as: 'attendances', attributes: [] },
+        { model: EventImage, as: 'eventImages', attributes: [] }
+      ],
+      attributes: {
+        include: [
+          [Sequelize.fn("COUNT", Sequelize.col("attendances.id")), "numAttending"]
+        ],
+        exclude: ["attendances"]
+      },
+      group: ["Event.id", "group.id", "venue.id"]
+    });
+
+    // Process each event to add previewImage
+    const formattedEvents = events.map(event => {
+      let previewImage = "No preview image found.";
+      if (Array.isArray(event.eventImages)) {
+        event.eventImages.forEach(image => {
+          if (image.preview === true) {
+            previewImage = image.url;
+          }
+        });
+      }
+
+      return {
+        id: event.id,
+        groupId: event.groupId,
+        venueId: event.venueId,
+        name: event.name,
+        type: event.type,
+        startDate: event.startDate,
+        endDate: event.endDate,
+        numAttending: event.dataValues.numAttending,
+        previewImage,
+        Group: event.group,
+        Venue: event.venue
+      };
+    });
+
+    res.status(200).json({ Events: formattedEvents });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Create an event for a group
+router.post('/:groupId/events', requireAuth, validateEvent, async (req, res, next) => {
+
+  const groupId = parseInt(req.params.groupId, 10);
+  const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+  const userId = req.user.id; // Assuming you're storing the user's ID on the request object
+
+  try {
+    // Check if the group exists and user is authorized (organizer or co-host)
+    const group = await Group.findByPk(groupId);
+    if (!group) {
+      return res.status(404).json({ message: "Group couldn't be found" });
+    }
+
+    // Check if the user is the organizer or a co-host of the group
+    if (group.organizerId !== userId) {
+      const isCoHost = await Membership.findOne({
+        where: { groupId, userId, status: "co-host" }
+      });
+
+      if (!isCoHost) {
+        return res.status(403).json({ message: "You must be the organizer or a co-host to create an event." });
+      }
+    }
+
+    // Check if the venue exists
+    if (venueId) {
+      const venue = await Venue.findByPk(venueId);
+      if (!venue) {
+        return res.status(404).json({ message: "Venue couldn't be found" });
+      }
+    }
+
+    // Create the event
+    const event = await Event.create({
+      groupId,
+      venueId,
+      name,
+      type,
+      capacity,
+      price,
+      description,
+      startDate,
+      endDate
+    });
+
+    // Construct the response object
+    const responseEvent = {
+      id: event.id,
+      groupId: event.groupId,
+      venueId: event.venueId,
+      name: event.name,
+      type: event.type,
+      capacity: event.capacity,
+      price: event.price,
+      description: event.description,
+      startDate: event.startDate,
+      endDate: event.endDate
+    };
+
+    res.status(200).json(responseEvent);
+  } catch (err) {
+    next(err);
+  }
+});
+
 
 
 module.exports = router;
