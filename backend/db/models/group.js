@@ -12,11 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       // this.belongsTo(models.User, { foreignKey: 'organizerId' });
-      Group.hasMany(models.Event, { foreignKey: 'groupId', as: 'events' });
+      Group.hasMany(models.Event, { foreignKey: 'groupId', as: 'events', onDelete: 'CASCADE' });
       Group.belongsTo(models.User, { foreignKey: 'organizerId', as: 'organizer' });
-      Group.hasMany(models.Membership, { foreignKey: 'groupId', as: 'memberships' });
-      Group.hasMany(models.Venue, { foreignKey: 'groupId', as: 'venues' });
-      Group.hasMany(models.GroupImage, { foreignKey: 'groupId', as: 'groupImages' });
+      Group.hasMany(models.Membership, { foreignKey: 'groupId', as: 'memberships', onDelete: 'CASCADE' });
+      Group.hasMany(models.Venue, { foreignKey: 'groupId', as: 'venues', onDelete: 'CASCADE' });
+      Group.hasMany(models.GroupImage, { foreignKey: 'groupId', as: 'groupImages', onDelete: 'CASCADE' });
     }
   }
 

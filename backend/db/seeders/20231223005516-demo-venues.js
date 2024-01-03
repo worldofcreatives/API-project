@@ -1,5 +1,7 @@
 'use strict';
 
+const { Venue } = require('../models');
+
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
@@ -7,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('Venues', [
+    await Venue.bulkCreate([
       {
         groupId: 1,
         address: '123 Tech Rd',
@@ -58,7 +60,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       }
-    ], {});
+    ], { validate: true });
   },
 
   async down (queryInterface, Sequelize) {

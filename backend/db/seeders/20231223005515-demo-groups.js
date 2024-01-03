@@ -1,5 +1,7 @@
 'use strict';
 
+const { Group } = require('../models');
+
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
@@ -7,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('Groups', [
+    await Group.bulkCreate([
       {
         organizerId: 1, // Make sure references a valid User ID
         name: 'Outdoor Adventures',
@@ -63,7 +65,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       }
-    ]);
+    ], { validate: true });
   },
 
   async down (queryInterface, Sequelize) {
