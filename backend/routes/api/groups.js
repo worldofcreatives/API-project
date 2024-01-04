@@ -124,16 +124,16 @@ router.get("/", async (req, res, next) => {
           as: "memberships",
         }
       ],
-      attributes: {
-        include: [
-          [
-            Sequelize.fn("COUNT", Sequelize.col("memberships.id")),
-            "numMembers",
-          ],
-        ],
+      // attributes: {
+      //   include: [
+      //     [
+      //       Sequelize.fn("COUNT", Sequelize.col("memberships.id")),
+      //       "numMembers",
+      //     ],
+      //   ],
 
-        exclude: ["memberships"],
-      },
+      //   exclude: ["memberships"],
+      // },
       // group: ['Group.id', 'groupImages.id'],
     });
 
