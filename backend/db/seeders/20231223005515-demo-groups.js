@@ -69,6 +69,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Groups', null, {});
+    options.tableName = "Groups"
+    await queryInterface.bulkDelete(options);
   }
 };
