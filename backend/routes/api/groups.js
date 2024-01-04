@@ -10,7 +10,7 @@ const {
   EventImage
 } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
-const { Sequelize } = require("sequelize");
+const { Sequelize, Op } = require("sequelize");
 
 const { check, validationResult } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -553,6 +553,51 @@ router.post('/:groupId/events', requireAuth, validateEvent, async (req, res, nex
   }
 });
 
+// Get all members of a group
+router.get('/:groupId/members', async (req, res, next) => {
+  const groupId = parseInt(req.params.groupId, 10);
+
+  try {
+    const group = await Group.findByPk(groupId);
+    if (!group) {
+      return res.status(404).json({ message: "Group couldn't be found" });
+    }
+
+    // Determine if the current user (if authenticated) is the organizer or a co-host
+    let isPrivilegedUser = false;
+    if (req.user) {
+      const userId = req.user.id;
+      isPrivilegedUser = group.organizerId === userId || // Check if user is the organizer
+        (await Membership.findOne({ // Check if user is a co-host
+          where: { groupId, userId, status: 'co-host' }
+        })) != null;
+    }
+
+    // Fetch members
+    const memberships = await Membership.findAll({
+      where: { groupId },
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['id', 'firstName', 'lastName']
+      }]
+    });
+
+    // Filter members for non-privileged users
+    const filteredMemberships = memberships.map(membership => ({
+      id: membership.user.id,
+      firstName: membership.user.firstName,
+      lastName: membership.user.lastName,
+      Membership: {
+        status: membership.status
+      }
+    })).filter(membership => isPrivilegedUser || membership.Membership.status !== 'pending');
+
+    res.status(200).json({ Members: filteredMemberships });
+  } catch (err) {
+    next(err);
+  }
+});
 
 
 module.exports = router;

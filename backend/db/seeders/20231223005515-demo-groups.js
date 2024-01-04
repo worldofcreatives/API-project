@@ -11,7 +11,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await Group.bulkCreate([
       {
-        organizerId: 1, // Make sure references a valid User ID
+        organizerId: 1,
         name: 'Outdoor Adventures',
         about: 'A group for outdoor enthusiasts',
         type: 'In person',
@@ -22,7 +22,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        organizerId: 2,
+        organizerId: 1,
         name: 'Tech Talks',
         about: 'Discussing the latest in technology',
         type: 'Online',
@@ -33,7 +33,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        organizerId: 3,
+        organizerId: 1,
         name: 'Book Club',
         about: 'Monthly fiction and non-fiction book discussions',
         type: 'In person',
