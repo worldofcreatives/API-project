@@ -37,8 +37,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        venueId: 1,
-        groupId: 1,
+        groupId: 5,
         name: 'Virtual Reality Expo',
         description: 'Explore the latest in VR technology.',
         type: 'Online',

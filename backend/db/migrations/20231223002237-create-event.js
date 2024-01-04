@@ -22,8 +22,9 @@ module.exports = {
           model: 'Venues',
           key: 'id'
         },
+        allowNull: true,
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        onDelete: 'CASCADE'
       },
       groupId: {
         type: Sequelize.INTEGER,
@@ -31,8 +32,9 @@ module.exports = {
           model: 'Groups',
           key: 'id'
         },
+        allowNull: true,
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        onDelete: 'CASCADE'
       },
       name: {
         type: Sequelize.STRING,
