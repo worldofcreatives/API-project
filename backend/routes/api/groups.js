@@ -47,28 +47,54 @@ const validateEvent = [
   check('capacity').isInt().withMessage('Capacity must be an integer'),
   check('price').isFloat().withMessage('Price is invalid'),
   check('description').notEmpty().withMessage('Description is required'),
-  check('startDate').isISO8601().withMessage('Start date must be in the future'),
-  check('endDate').isISO8601().withMessage('End date is less than start date'),
+  check('startDate')
+    .toDate()
+    .isAfter(new Date().toString())
+    .withMessage('Start date must be set in the future'),
+  check('endDate')
+    .toDate()
+    .custom((value, { req }) => new Date(value) > new Date(req.body.startDate))
+    .withMessage('End date must be after start date'),
   handleValidationErrors
 ];
 
-async function isAuthorizedUser(userId, groupId) {
-  const group = await Group.findByPk(groupId);
-  if (!group) return false; // Group doesn't exist
+// validation checks for venue stuff
+const validateVenue = [
+  check('address')
+    .notEmpty()
+    .withMessage('Street address is required'),
+  check('city')
+    .notEmpty()
+    .withMessage('City is required'),
+  check('state')
+    .notEmpty()
+    .withMessage('State is required'),
+  check('lat')
+    .isFloat({ min: -90, max: 90 })
+    .withMessage('Latitude must be within -90 and 90'),
+  check('lng')
+    .isFloat({ min: -180, max: 180 })
+    .withMessage('Longitude must be within -180 and 180'),
+  handleValidationErrors
+];
 
-  if (group.organizerId === userId) return true; // User is the organizer
+// async function isAuthorizedUser(userId, groupId) {
+//   const group = await Group.findByPk(groupId);
+//   if (!group) return false; // Group doesn't exist
 
-  // Check if user is a co-host
-  const membership = await Membership.findOne({
-    where: {
-      groupId: groupId,
-      userId: userId,
-      status: "co-host"
-    }
-  });
+//   if (group.organizerId === userId) return true; // User is the organizer
 
-  return !!membership; // true if membership exists and user is a co-host, false otherwise
-}
+//   // Check if user is a co-host
+//   const membership = await Membership.findOne({
+//     where: {
+//       groupId: groupId,
+//       userId: userId,
+//       status: "co-host"
+//     }
+//   });
+
+//   return !!membership; // true if membership exists and user is a co-host, false otherwise
+// }
 
 router.post('/', requireAuth, validateGroup, async (req, res, next) => {
 
@@ -164,43 +190,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// router.get("/", async (req, res, next) => {
-//   try {
-//     const groups = await Group.findAll({
-//       include: [
-//         {
-//           model: GroupImage,
-//           as: "groupImages",
-//         }
-//       ]
-//     });
-
-//     let groupList = [];
-
-//     for (let group of groups) {
-//       let groupJson = group.toJSON();
-
-//       // Lazy load the count of memberships for each group
-//       const numMembers = await Membership.count({
-//         where: { groupId: group.id }
-//       });
-
-//       const previewImage = groupJson.groupImages.find(image => image.preview === true)?.url || "No preview image found.";
-
-//       groupList.push({
-//         ...groupJson,
-//         numMembers,
-//         previewImage
-//       });
-//     }
-
-//     return res.json({"Groups": groupList});
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
-
 // Route to get all groups joined or organized by the current user
 router.get('/current', requireAuth, async (req, res, next) => {
   try {
@@ -252,8 +241,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
   }
 });
 
-
-// Route to get details of a group by ID
+// Route to get details of a group by ID using lazy loading
 router.get('/:groupId', async (req, res, next) => {
   try {
     const groupId = parseInt(req.params.groupId, 10);
@@ -262,37 +250,41 @@ router.get('/:groupId', async (req, res, next) => {
       return res.json({ message: "Invalid group ID" });
     }
 
-    const group = await Group.findByPk(groupId, {
-      include: [
-        {
-          model: GroupImage,
-          as: "groupImages",
-          attributes: ["id", "url", "preview"]
-        },
-        {
-          model: User,
-          as: "organizer",
-          attributes: ["id", "firstName", "lastName"]
-        },
-        {
-          model: Venue,
-          as: "venues",
-          attributes: ["id", "address", "city", "state", "lat", "lng"]
-        }
-      ]
-    });
-
+    // Initially load only the Group model
+    const group = await Group.findByPk(groupId);
     if (!group) {
       res.status(404);
       return res.json({ message: "Group couldn't be found" });
     }
 
+    // Lazy load aggregates
+    const groupImages = await group.getGroupImages({
+      attributes: ["id", "url", "preview"]
+    });
+    const organizer = await group.getOrganizer({
+      attributes: ["id", "firstName", "lastName"]
+    });
+    const venues = await group.getVenues({
+      attributes: ["id", "groupId", "address", "city", "state", "lat", "lng"]
+    });
+    const memberships = await group.getMemberships();
+
+    // Construct and send response
+    const groupJSON = {
+      ...group.toJSON(),
+      numMembers: memberships.length,
+      GroupImages: groupImages.map(gi => gi.toJSON()),
+      Organizer: organizer ? organizer.toJSON() : {},
+      Venues: venues.map(v => v.toJSON())
+    };
+
     res.status(200);
-    return res.json(group);
+    return res.json(groupJSON);
   } catch (err) {
     next(err);
   }
 });
+
 
 // Add an Image to a Group based on the Group's id
 
@@ -404,7 +396,6 @@ router.delete('/:groupId', requireAuth, async (req, res, next) => {
 });
 
 // Get All Venues for a Group specified by its id
-
 router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
   try {
     const groupId = parseInt(req.params.groupId, 10);
@@ -412,27 +403,67 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
       return res.status(400).json({ message: "Invalid group ID" });
     }
 
-    if (!(await isAuthorizedUser(req.user.id, groupId))) {
+    const group = await Group.findByPk(groupId);
+    if (!group) {
+      return res.status(404).json({ message: "Group couldn't be found" });
+    }
+
+    let isPrivilegedUser = false;
+    if (req.user) {
+      const userId = req.user.id;
+      isPrivilegedUser = group.organizerId === userId ||
+        (await Membership.findOne({
+          where: { groupId, userId, status: 'co-host' }
+        })) != null;
+    }
+
+    if (!isPrivilegedUser) {
       return res.status(403).json({ message: "You must be the organizer or a co-host of the group to view venues." });
     }
 
     const venues = await Venue.findAll({ where: { groupId } });
-    res.status(200).json({ Venues: venues });
+
+    const cleanedVenues = venues.map(venue => ({
+      id: venue.id,
+      address: venue.address,
+      city: venue.city,
+      state: venue.state,
+      lat: venue.lat,
+      lng: venue.lng,
+      groupId: venue.groupId
+    }));
+
+    res.status(200).json({ Venues: cleanedVenues });
   } catch (err) {
     next(err);
   }
 });
 
+
 // Create a new Venue for a Group specified by its id
-router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
+router.post('/:groupId/venues', requireAuth, validateVenue, async (req, res, next) => {
+  const groupId = parseInt(req.params.groupId, 10);
   try {
-    const groupId = parseInt(req.params.groupId, 10);
     if (isNaN(groupId)) {
       return res.status(400).json({ message: "Invalid group ID" });
     }
 
-    if (!(await isAuthorizedUser(req.user.id, groupId))) {
-      return res.status(403).json({ message: "You must be the organizer or a co-host of the group to add venues." });
+    const group = await Group.findByPk(groupId);
+    if (!group) {
+      return res.status(404).json({ message: "Group couldn't be found" });
+    }
+
+    let isPrivilegedUser = false;
+    if (req.user) {
+      const userId = req.user.id;
+      isPrivilegedUser = group.organizerId === userId || // Check if user is the organizer
+        (await Membership.findOne({ // Check if user is a co-host
+          where: { groupId, userId, status: 'co-host' }
+        })) != null;
+    }
+
+    if (!isPrivilegedUser) {
+      return res.status(403).json({ message: "You do not have permission to create a venue for this group" });
     }
 
     const { address, city, state, lat, lng } = req.body;
@@ -446,7 +477,18 @@ router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
       lng
     });
 
-    res.status(200).json(newVenue);
+    const responseVenue = {
+      id: newVenue.id,
+      groupId: newVenue.groupId,
+      address: newVenue.address,
+      city: newVenue.city,
+      state: newVenue.state,
+      lat: newVenue.lat,
+      lng: newVenue.lng
+    };
+
+    res.status(200).json({ Venues: [responseVenue] });
+
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
       const errors = err.errors.reduce((acc, cur) => ({ ...acc, [cur.path]: cur.message }), {});
@@ -461,23 +503,19 @@ router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
 router.get('/:groupId/events', async (req, res, next) => {
   const groupId = parseInt(req.params.groupId, 10); // Parse groupId from URL params
 
-  // Validate groupId is a number
   if (isNaN(groupId)) {
     return res.status(400).json({ message: "Invalid group ID" });
   }
 
   try {
-    // Check if the group exists
     const groupExists = await Group.findByPk(groupId);
     if (!groupExists) {
       return res.status(404).json({ message: "Group couldn't be found" });
     }
 
-    // Find all events for the given groupId
     const events = await Event.findAll({
-      where: { groupId }, // Filter events by groupId
+      where: { groupId },
       include: [
-        // Include other models as needed
         { model: Group, as: 'group', attributes: ['id', 'name', 'city', 'state'] },
         { model: Venue, as: 'venue', attributes: ['id', 'city', 'state'] },
         { model: Attendance, as: 'attendances', attributes: [] },
@@ -492,7 +530,6 @@ router.get('/:groupId/events', async (req, res, next) => {
       group: ["Event.id", "group.id", "venue.id"]
     });
 
-    // Process each event to add previewImage
     const formattedEvents = events.map(event => {
       let previewImage = "No preview image found.";
       if (Array.isArray(event.eventImages)) {
@@ -529,7 +566,7 @@ router.post('/:groupId/events', requireAuth, validateEvent, async (req, res, nex
 
   const groupId = parseInt(req.params.groupId, 10);
   const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
-  const userId = req.user.id; // Assuming you're storing the user's ID on the request object
+  const userId = req.user.id;
 
   try {
     // Check if the group exists and user is authorized (organizer or co-host)
@@ -570,7 +607,6 @@ router.post('/:groupId/events', requireAuth, validateEvent, async (req, res, nex
       endDate
     });
 
-    // Construct the response object
     const responseEvent = {
       id: event.id,
       groupId: event.groupId,
@@ -649,7 +685,6 @@ router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
           return res.status(404).json({ message: "Group couldn't be found" });
       }
 
-      // Check if user already has a membership (pending or accepted) in the group
       const existingMembership = await Membership.findOne({
           where: {
               groupId,
@@ -660,12 +695,13 @@ router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
       if (existingMembership) {
           if (existingMembership.status === 'pending') {
               return res.status(400).json({ message: "Membership has already been requested" });
-          } else if (existingMembership.status === 'member') {
+          } else if (existingMembership.status === 'co-host') {
               return res.status(400).json({ message: "User is already a member of the group" });
-          }
+          } else if (existingMembership.status === 'member') {
+            return res.status(400).json({ message: "User is already a member of the group" });
+        }
       }
 
-      // Create new membership with 'pending' status
       const newMembership = await Membership.create({
           groupId,
           userId,

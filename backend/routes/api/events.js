@@ -31,8 +31,14 @@ const validateEventEditing = [
   check('capacity').isInt().withMessage('Capacity must be an integer'),
   check('price').isFloat().withMessage('Price is invalid'),
   check('description').notEmpty().withMessage('Description is required'),
-  check('startDate').isISO8601().withMessage('Start date must be in the future'),
-  check('endDate').isISO8601().withMessage('End date is less than start date'),
+  check('startDate')
+    .toDate()
+    .isAfter(new Date().toString())
+    .withMessage('Start date must be set in the future'),
+  check('endDate')
+    .toDate()
+    .custom((value, { req }) => new Date(value) > new Date(req.body.startDate))
+    .withMessage('End date must be after start date'),
   handleValidationErrors
 ];
 
@@ -54,7 +60,7 @@ const validateQueryParams = [
 
 // Get an event (version 1 lazy loading and pagination without all the params)
 router.get('/', validateQueryParams, async (req, res, next) => {
-    // Extract query parameters with default values
+
     let {
       page = 1,
       size = 20,
@@ -63,20 +69,17 @@ router.get('/', validateQueryParams, async (req, res, next) => {
       startDate
     } = req.query;
 
-    // Validate and setup for pagination
     page = isNaN(page) || page <= 0 ? 1 : parseInt(page);
     size = isNaN(size) || size <= 0 ? 20 : parseInt(size);
-    size = size > 20 ? 20 : size; // Limiting size to a maximum of 20
+    size = size > 20 ? 20 : size;
 
     const where = {};
 
-    // Apply filters based on query parameters
     if (name) where.name = { [Op.like]: `%${name}%` };
     if (type) where.type = type;
     if (startDate) where.startDate = { [Op.gte]: new Date(startDate) };
 
   try {
-    // Fetch only events first
     const events = await Event.findAll({
       where,
       attributes: {
@@ -134,54 +137,47 @@ router.get('/', validateQueryParams, async (req, res, next) => {
 });
 
 
-// Get all events (version two eager loading and pagination without all the params)
-router.get('/', async (req, res, next) => {
-  // Extract query parameters with default values
-  let {
-    page = 1,
-    size = 20,
-    name,
-    type,
-    startDate
-  } = req.query;
+// Get all events (version two eager loading and pagination
 
-  // Validate and setup for pagination
+router.get("/", async (req, res, next) => {
+  let { page = 1, size = 20, name, type, startDate } = req.query;
+
   page = isNaN(page) || page <= 0 ? 1 : parseInt(page);
   size = isNaN(size) || size <= 0 ? 20 : parseInt(size);
-  size = size > 20 ? 20 : size; // Limiting size to a maximum of 20
+  size = size > 20 ? 20 : size;
 
   const where = {};
 
-  // Apply filters based on query parameters
   if (name) where.name = { [Op.like]: `%${name}%` };
   if (type) where.type = type;
   if (startDate) where.startDate = { [Op.gte]: new Date(startDate) };
 
   try {
-    // Fetch events with filters and pagination applied
     const events = await Event.findAll({
       where,
       include: [
         {
           model: Group,
-          as: 'group',
-          attributes: ['id', 'name', 'city', 'state']
+          as: "group",
+          attributes: ["id", "name", "city", "state"],
         },
         {
           model: Venue,
-          as: 'venue',
-          attributes: ['id', 'city', 'state']
+          as: "venue",
+          attributes: ["id", "city", "state"],
         },
-        // Include other necessary models
       ],
       limit: size,
       offset: (page - 1) * size,
-      // Apply any necessary group and order clauses
     });
+    for (const event of events) {
+      const count = await Attendance.count({
+        where: { eventId: event.id },
+      });
+      event.setDataValue("numAttending", count);
+    }
 
-    // Process each event to format the response
-    const formattedEvents = events.map(event => {
-      // Format each event's data here
+    const formattedEvents = events.map((event) => {
       return {
         id: event.id,
         groupId: event.groupId,
@@ -190,16 +186,15 @@ router.get('/', async (req, res, next) => {
         type: event.type,
         startDate: event.startDate,
         endDate: event.endDate,
-        // numAttending: event.Attendances.length, // Include this if Attendance is associated
-        // previewImage: event.previewImage, // Include logic to determine previewImage
+        numAttending: event.dataValues.numAttending,
+        previewImage: event.previewImage,
         Group: event.group,
-        Venue: event.venue
+        Venue: event.venue,
       };
     });
 
     res.status(200).json({ Events: formattedEvents });
   } catch (error) {
-    // Handle errors, potentially from the database or other issues
     res.status(500).json({ error: error.message });
   }
 });
@@ -209,10 +204,9 @@ router.get('/', async (req, res, next) => {
 router.post('/:eventId/images', requireAuth, validateEventImage, async (req, res, next) => {
   const eventId = parseInt(req.params.eventId, 10);
   const { url, preview } = req.body;
-  const userId = req.user.id; // Assuming you're storing the user's ID on the request object
+  const userId = req.user.id;
 
   try {
-    // Find the event and group associated with it
     const event = await Event.findByPk(eventId, { include: { model: Group, as: 'group' } });
     if (!event) {
       return res.status(404).json({ message: "Event couldn't be found" });
@@ -220,27 +214,22 @@ router.post('/:eventId/images', requireAuth, validateEventImage, async (req, res
 
     const groupId = event.group.id;
 
-    // Check if the user is attending the event
     const attendance = await Attendance.findOne({
       where: { eventId, userId, status: 'attending' }
     });
 
-    // Check if the user is a co-host or organizer of the group
     const membership = await Membership.findOne({
-      where: { groupId, userId, status: ['co-host', 'member'] }
+      where: { groupId, userId, status: ['co-host'] }
     });
 
     const isOrganizer = event.group.organizerId === userId;
 
-    // User must be an attendee, co-host, or the organizer of the group
     if (!attendance && !membership && !isOrganizer) {
       return res.status(403).json({ message: "You must be an attendee, host, or co-host to add images." });
     }
 
-    // Create the event image
     const image = await EventImage.create({ eventId, url, preview });
 
-    // Respond with the new image details
     res.status(200).json({
       id: image.id,
       url: image.url,
@@ -251,6 +240,51 @@ router.post('/:eventId/images', requireAuth, validateEventImage, async (req, res
     next(err);
   }
 });
+
+//^ Get an event by its id
+router.get("/:eventId", async (req, res, next) => {
+  const eventId = parseInt(req.params.eventId, 10);
+
+  try {
+    const event = await Event.findByPk(eventId, {
+      include: [
+        {
+          model: Group,
+          as: "group",
+          attributes: ["id", "name", "private", "city", "state"],
+        },
+        {
+          model: Venue,
+          as: "venue",
+          attributes: ["id", "address", "city", "state", "lat", "lng"],
+        },
+        {
+          model: EventImage,
+          as: "eventImages",
+          attributes: ["id", "url", "preview"],
+        },
+      ],
+    });
+
+    if (!event) {
+      return res.status(404).json({ message: "Event couldn't be found" });
+    }
+
+    const numAttending = await Attendance.count({
+      where: { eventId: event.id },
+    });
+
+    const eventData = event.get({ plain: true });
+    const { createdAt, updatedAt, ...eventDetails } = eventData;
+
+    eventDetails.numAttending = numAttending;
+
+    return res.status(200).json(eventDetails);
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 
 // Edit an event
@@ -292,10 +326,8 @@ router.put('/:eventId', requireAuth, validateEventEditing, async (req, res, next
       }
     }
 
-    // Update the event
     await event.update({ venueId, name, type, capacity, price, description, startDate, endDate });
 
-    // Respond with selected updated event details
     const responseEvent = {
       id: event.id,
       venueId: event.venueId,
