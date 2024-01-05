@@ -164,6 +164,42 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// router.get("/", async (req, res, next) => {
+//   try {
+//     const groups = await Group.findAll({
+//       include: [
+//         {
+//           model: GroupImage,
+//           as: "groupImages",
+//         }
+//       ]
+//     });
+
+//     let groupList = [];
+
+//     for (let group of groups) {
+//       let groupJson = group.toJSON();
+
+//       // Lazy load the count of memberships for each group
+//       const numMembers = await Membership.count({
+//         where: { groupId: group.id }
+//       });
+
+//       const previewImage = groupJson.groupImages.find(image => image.preview === true)?.url || "No preview image found.";
+
+//       groupList.push({
+//         ...groupJson,
+//         numMembers,
+//         previewImage
+//       });
+//     }
+
+//     return res.json({"Groups": groupList});
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
 
 // Route to get all groups joined or organized by the current user
 router.get('/current', requireAuth, async (req, res, next) => {
@@ -599,6 +635,166 @@ router.get('/:groupId/members', async (req, res, next) => {
     next(err);
   }
 });
+
+
+// Request a Membership for a Group based on the Group's id
+
+router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
+  const groupId = parseInt(req.params.groupId, 10);
+  const userId = req.user.id;
+
+  try {
+      const group = await Group.findByPk(groupId);
+      if (!group) {
+          return res.status(404).json({ message: "Group couldn't be found" });
+      }
+
+      // Check if user already has a membership (pending or accepted) in the group
+      const existingMembership = await Membership.findOne({
+          where: {
+              groupId,
+              userId
+          }
+      });
+
+      if (existingMembership) {
+          if (existingMembership.status === 'pending') {
+              return res.status(400).json({ message: "Membership has already been requested" });
+          } else if (existingMembership.status === 'member') {
+              return res.status(400).json({ message: "User is already a member of the group" });
+          }
+      }
+
+      // Create new membership with 'pending' status
+      const newMembership = await Membership.create({
+          groupId,
+          userId,
+          status: 'pending'
+      });
+
+      res.status(200).json({
+          memberId: newMembership.userId,
+          status: newMembership.status
+      });
+
+  } catch (err) {
+      next(err);
+  }
+});
+
+// Change the status of a membership for a group specified by id
+
+router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
+  const groupId = parseInt(req.params.groupId, 10);
+  const { memberId, status } = req.body;
+  const userId = req.user.id;
+
+  try {
+      // Check if group exists
+      const group = await Group.findByPk(groupId);
+      if (!group) {
+          return res.status(404).json({ message: "Group couldn't be found" });
+      }
+
+      // Check if user with memberId exists
+      const user = await User.findByPk(memberId);
+      if (!user) {
+          return res.status(404).json({ message: "User couldn't be found" });
+      }
+
+      // Check if membership exists
+      const membership = await Membership.findOne({
+          where: {
+              groupId,
+              userId: memberId // memberId is the user whose membership status I'll change
+          }
+      });
+
+      if (!membership) {
+          return res.status(404).json({ message: "Membership between the user and the group does not exist" });
+      }
+
+      const currentUserMembership = await Membership.findOne({
+          where: {
+              groupId,
+              userId // userId is the id of the current user
+          }
+      });
+
+      if (status === 'member' && !(group.organizerId === userId || (currentUserMembership && currentUserMembership.status === 'co-host'))) {
+          return res.status(403).json({ message: "Unauthorized to change membership status" });
+      }
+
+      if (status === 'co-host' && group.organizerId !== userId) {
+          return res.status(403).json({ message: "Unauthorized to change membership status" });
+      }
+
+      if (status === 'pending') {
+          return res.status(400).json({ message: "Bad Request", errors: { status: "Cannot change a membership status to pending" } });
+      }
+
+      membership.status = status;
+      await membership.save();
+
+      res.status(200).json({
+          id: membership.id,
+          groupId: membership.groupId,
+          memberId: membership.userId,
+          status: membership.status
+      });
+
+  } catch (err) {
+      next(err);
+  }
+});
+
+
+// Delete membership to a group specified by id
+
+router.delete('/:groupId/membership/:memberId', requireAuth, async (req, res, next) => {
+  const groupId = parseInt(req.params.groupId, 10);
+  const memberId = parseInt(req.params.memberId, 10);
+  const userId = req.user.id;
+
+  try {
+      const group = await Group.findByPk(groupId);
+      if (!group) {
+          return res.status(404).json({ message: "Group couldn't be found" });
+      }
+
+      const user = await User.findByPk(memberId);
+      if (!user) {
+          return res.status(404).json({ message: "User couldn't be found" });
+      }
+
+      const membership = await Membership.findOne({
+          where: {
+              groupId,
+              userId: memberId
+          }
+      });
+
+      if (!membership) {
+          return res.status(404).json({ message: "Membership does not exist for this User" });
+      }
+
+      // Check for proper authorization to delete membership
+      if (group.organizerId !== userId && memberId !== userId) {
+          return res.status(403).json({ message: "Unauthorized to delete membership" });
+      }
+
+      await membership.destroy();
+
+      res.status(200).json({
+          message: "Successfully deleted membership from group"
+      });
+
+  } catch (err) {
+      next(err);
+  }
+});
+
+
 
 
 module.exports = router;
