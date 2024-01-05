@@ -21,10 +21,8 @@ router.delete("/:imageId", requireAuth, async (req, res, next) => {
         return res.status(404).json({ message: "Group Image couldn't be found" });
       }
 
-      //^ Authorization check: Ensure user is organizer or co-host
       const group = groupImage.group;
       if (group.organizerId !== userId) {
-        //^ Check if the user is a co-host
         const isCoHost = await Membership.findOne({
           where: {
             groupId: group.id,
