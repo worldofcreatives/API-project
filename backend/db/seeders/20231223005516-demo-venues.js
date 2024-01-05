@@ -31,7 +31,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        groupId: 1,
+        groupId: 3,
         address: '789 Startup Blvd',
         city: 'Entrepreneur Town',
         state: 'Founderland',
@@ -41,7 +41,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        groupId: 3,
+        groupId: 4,
         address: '101 Data Dr',
         city: 'Server City',
         state: 'Compute',
@@ -51,7 +51,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        groupId: 4,
+        groupId: 5,
         address: '202 AI Lane',
         city: 'Robotics Village',
         state: 'Automation',
