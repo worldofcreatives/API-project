@@ -487,7 +487,7 @@ router.post('/:groupId/venues', requireAuth, validateVenue, async (req, res, nex
       lng: newVenue.lng
     };
 
-    res.status(200).json({ Venues: [responseVenue] });
+    res.status(200).json(responseVenue);
 
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
