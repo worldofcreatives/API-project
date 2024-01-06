@@ -59,56 +59,129 @@ const validateQueryParams = [
 
 
 // Get an event (version 1 lazy loading and pagination without all the params)
-router.get('/', validateQueryParams, async (req, res, next) => {
+// router.get('/', validateQueryParams, async (req, res, next) => {
 
-    let {
-      page = 1,
-      size = 20,
-      name,
-      type,
-      startDate
-    } = req.query;
+//     let {
+//       page = 1,
+//       size = 20,
+//       name,
+//       type,
+//       startDate
+//     } = req.query;
 
-    page = isNaN(page) || page <= 0 ? 1 : parseInt(page);
-    size = isNaN(size) || size <= 0 ? 20 : parseInt(size);
-    size = size > 20 ? 20 : size;
+//     page = isNaN(page) || page <= 0 ? 1 : parseInt(page);
+//     size = isNaN(size) || size <= 0 ? 20 : parseInt(size);
+//     size = size > 20 ? 20 : size;
 
-    const where = {};
+//     const where = {};
 
-    if (name) where.name = { [Op.like]: `%${name}%` };
-    if (type) where.type = type;
-    if (startDate) where.startDate = { [Op.gte]: new Date(startDate) };
+//     if (name) where.name = { [Op.like]: `%${name}%` };
+//     if (type) where.type = type;
+//     if (startDate) where.startDate = { [Op.gte]: new Date(startDate) };
 
+//   try {
+//     const events = await Event.findAll({
+//       where,
+//       attributes: {
+//         include: [
+//           [
+//             Sequelize.literal(`(
+//                 SELECT COUNT(*)
+//                 FROM Attendances AS attendance
+//                 WHERE
+//                     attendance.eventId = Event.id
+//             )`),
+//             'numAttending'
+//           ]
+//         ]
+//       },
+//       limit: size,
+//       offset: (page - 1) * size,
+//     });
+
+//     // Process each event to add associated data and previewImage
+//     const formattedEvents = await Promise.all(events.map(async event => {
+//       // Lazy load each associated model only when they are accessed
+//       const group = await event.getGroup({ attributes: ['id', 'name', 'city', 'state'] });
+//       const venue = await event.getVenue({ attributes: ['id', 'city', 'state'] });
+//       const eventImages = await event.getEventImages();
+
+//       let previewImage = "No preview image found.";
+//       if (Array.isArray(eventImages)) {
+//         eventImages.forEach(image => {
+//           if (image.preview === true) {
+//             previewImage = image.url;
+//           }
+//         });
+//       }
+
+//       return {
+//         id: event.id,
+//         groupId: event.groupId,
+//         venueId: event.venueId,
+//         name: event.name,
+//         type: event.type,
+//         startDate: event.startDate,
+//         endDate: event.endDate,
+//         numAttending: event.dataValues.numAttending,
+//         previewImage,
+//         Group: group,
+//         Venue: venue
+//       };
+//     }));
+
+//     res.status(200).json({ Events: formattedEvents });
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+
+// Get all events
+
+router.get('/', async (req, res, next) => {
   try {
     const events = await Event.findAll({
-      where,
+      include: [
+        {
+          model: Group,
+          as: 'group',
+          attributes: ['id', 'name', 'city', 'state']
+        },
+        {
+          model: Venue,
+          as: 'venue',
+          attributes: ['id', 'city', 'state']
+        },
+        {
+          model: Attendance,
+          as: 'attendances',
+          attributes: []
+        },
+        {
+          model: EventImage,
+          as: 'eventImages',
+          attributes: []
+        }
+      ],
       attributes: {
         include: [
           [
-            Sequelize.literal(`(
-                SELECT COUNT(*)
-                FROM Attendances AS attendance
-                WHERE
-                    attendance.eventId = Event.id
-            )`),
-            'numAttending'
-          ]
-        ]
+            Sequelize.fn("COUNT", Sequelize.col("attendances.id")),
+            "numAttending"
+          ],
+        ],
+        exclude: ["attendances"]
       },
-      limit: size,
-      offset: (page - 1) * size,
+      group: ["Event.id", "group.id", "venue.id"]
     });
 
-    // Process each event to add associated data and previewImage
-    const formattedEvents = await Promise.all(events.map(async event => {
-      // Lazy load each associated model only when they are accessed
-      const group = await event.getGroup({ attributes: ['id', 'name', 'city', 'state'] });
-      const venue = await event.getVenue({ attributes: ['id', 'city', 'state'] });
-      const eventImages = await event.getEventImages();
-
+    // Process each event to add previewImage
+    const formattedEvents = events.map(event => {
       let previewImage = "No preview image found.";
-      if (Array.isArray(eventImages)) {
-        eventImages.forEach(image => {
+      // Check if eventImages is defined and is an array before calling forEach
+      if (Array.isArray(event.eventImages)) {
+        event.eventImages.forEach(image => {
           if (image.preview === true) {
             previewImage = image.url;
           }
@@ -125,10 +198,10 @@ router.get('/', validateQueryParams, async (req, res, next) => {
         endDate: event.endDate,
         numAttending: event.dataValues.numAttending,
         previewImage,
-        Group: group,
-        Venue: venue
+        Group: event.group,
+        Venue: event.venue
       };
-    }));
+    });
 
     res.status(200).json({ Events: formattedEvents });
   } catch (err) {
