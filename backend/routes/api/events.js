@@ -87,9 +87,9 @@ router.get('/', validateQueryParams, async (req, res, next) => {
           [
             Sequelize.literal(`(
                 SELECT COUNT(*)
-                FROM Attendances AS attendances
+                FROM Attendances AS attendance
                 WHERE
-                    attendances.eventId = Event.id
+                    attendance.eventId = Event.id
             )`),
             'numAttending'
           ]
