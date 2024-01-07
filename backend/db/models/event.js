@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     type: {
-      type: DataTypes.ENUM('In person', 'Online'), // Adjust as per your specific use case
+      type: DataTypes.ENUM('In person', 'Online'),
       allowNull: false
     },
     capacity: {
@@ -76,7 +76,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Event',
     tableName: 'Events',
-    timestamps: true // Assuming you want Sequelize to handle `createdAt` and `updatedAt`
+    timestamps: true
   });
 
   return Event;

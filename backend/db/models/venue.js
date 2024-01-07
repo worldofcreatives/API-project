@@ -35,18 +35,18 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     lat: {
-      type: DataTypes.DECIMAL(10, 7), // Adjust precision and scale according to your needs
+      type: DataTypes.DECIMAL(10, 7),
       allowNull: true
     },
     lng: {
-      type: DataTypes.DECIMAL(10, 7), // Adjust precision and scale according to your needs
+      type: DataTypes.DECIMAL(10, 7),
       allowNull: true
     }
   }, {
     sequelize,
     modelName: 'Venue',
     tableName: 'Venues',
-    timestamps: true // Assuming you want Sequelize to handle `createdAt` and `updatedAt`
+    timestamps: true
   });
 
   return Venue;
