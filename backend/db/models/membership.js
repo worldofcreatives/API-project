@@ -44,14 +44,14 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     status: {
-      type: DataTypes.ENUM('member', 'co-host', 'pending'), // Adjust as per your specific use case
+      type: DataTypes.ENUM('member', 'co-host', 'pending'),
       allowNull: false
     }
   }, {
     sequelize,
     modelName: 'Membership',
     tableName: 'Memberships',
-    timestamps: true // Assuming you want Sequelize to handle `createdAt` and `updatedAt`
+    timestamps: true
   });
 
   return Membership;

@@ -44,14 +44,14 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     status: {
-      type: DataTypes.ENUM('attending', 'pending', 'waitlist'), // Adjust as per your specific use case
+      type: DataTypes.ENUM('attending', 'pending', 'waitlist'),
       allowNull: false
     }
   }, {
     sequelize,
     modelName: 'Attendance',
     tableName: 'Attendances',
-    timestamps: true // Assuming you want Sequelize to handle `createdAt` and `updatedAt`
+    timestamps: true
   });
 
   return Attendance;

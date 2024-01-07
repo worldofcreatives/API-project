@@ -59,7 +59,6 @@ router.put('/:venueId', requireAuth, validateVenue, async (req, res, next) => {
       return res.status(404).json({ message: "Associated group couldn't be found" });
     }
 
-    // Check if the user is the organizer or a co-host
     const isOrganizer = group.organizerId === userId;
     const isCoHost = await Membership.findOne({
       where: { groupId: group.id, userId, status: "co-host" },
@@ -71,7 +70,6 @@ router.put('/:venueId', requireAuth, validateVenue, async (req, res, next) => {
 
     const updatedVenue = await venue.update({ address, city, state, lat, lng });
 
-    // response object
     const responseVenue = {
       id: updatedVenue.id,
       groupId: updatedVenue.groupId,

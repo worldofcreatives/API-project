@@ -4,6 +4,7 @@ const { requireAuth } = require("../../utils/auth");
 const router = express.Router();
 
 //^ Delete an existing image for an Event
+
 router.delete("/:imageId", requireAuth, async (req, res, next) => {
     const imageId = parseInt(req.params.imageId, 10);
     const userId = req.user.id;

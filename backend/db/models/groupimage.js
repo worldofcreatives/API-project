@@ -38,13 +38,13 @@ module.exports = (sequelize, DataTypes) => {
     preview: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false // Assume by default the image is not a preview image
+      defaultValue: false
     }
   }, {
     sequelize,
     modelName: 'GroupImage',
     tableName: 'GroupImages',
-    timestamps: true // Assuming you want Sequelize to handle `createdAt` and `updatedAt`
+    timestamps: true
   });
 
   return GroupImage;

@@ -59,10 +59,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Group',
-    // If you're using schemas, you might want to add the following:
-    // schema: process.env.SCHEMA || 'public', // Default to 'public' or your default schema
     tableName: 'Groups',
-    timestamps: true, // Assuming you want Sequelize to handle `createdAt` and `updatedAt`
+    timestamps: true,
   });
 
   return Group;
