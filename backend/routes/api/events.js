@@ -29,7 +29,7 @@ const validateEventEditing = [
   check('name').isLength({ min: 5 }).withMessage('Name must be at least 5 characters'),
   check('type').isIn(['Online', 'In person']).withMessage('Type must be Online or In person'),
   check('capacity').isInt().withMessage('Capacity must be an integer'),
-  check('price').isFloat().withMessage('Price is invalid'),
+  check('price').isFloat({ min: 0 }).withMessage('Price is invalid'),
   check('description').notEmpty().withMessage('Description is required'),
   check('startDate')
     .toDate()
@@ -159,6 +159,49 @@ router.post('/:eventId/images', requireAuth, validateEventImage, async (req, res
 
 //^ Get an event by its id
 
+// router.get("/:eventId", async (req, res, next) => {
+//   const eventId = parseInt(req.params.eventId, 10);
+
+//   try {
+//     const event = await Event.findByPk(eventId, {
+//       include: [
+//         {
+//           model: Group,
+//           as: "group",
+//           attributes: ["id", "name", "private", "city", "state"],
+//         },
+//         {
+//           model: Venue,
+//           as: "venue",
+//           attributes: ["id", "address", "city", "state", "lat", "lng"],
+//         },
+//         {
+//           model: EventImage,
+//           as: "eventImages",
+//           attributes: ["id", "url", "preview"],
+//         },
+//       ],
+//     });
+
+//     if (!event) {
+//       return res.status(404).json({ message: "Event couldn't be found" });
+//     }
+
+//     const numAttending = await Attendance.count({
+//       where: { eventId: event.id },
+//     });
+
+//     const eventData = event.get({ plain: true });
+//     const { createdAt, updatedAt, ...eventDetails } = eventData;
+
+//     eventDetails.numAttending = numAttending;
+
+//     return res.status(200).json(eventDetails);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
 router.get("/:eventId", async (req, res, next) => {
   const eventId = parseInt(req.params.eventId, 10);
 
@@ -192,15 +235,22 @@ router.get("/:eventId", async (req, res, next) => {
     });
 
     const eventData = event.get({ plain: true });
-    const { createdAt, updatedAt, ...eventDetails } = eventData;
+    const { createdAt, updatedAt, group, venue, eventImages, ...rest } = eventData;
 
-    eventDetails.numAttending = numAttending;
+    const eventDetails = {
+      ...rest,
+      Group: group,
+      Venue: venue,
+      EventImages: eventImages,
+      numAttending: numAttending,
+    };
 
     return res.status(200).json(eventDetails);
   } catch (error) {
     next(error);
   }
 });
+
 
 // Edit an event
 
