@@ -451,13 +451,42 @@ router.post('/:groupId/venues', requireAuth, validateVenue, async (req, res, nex
 
     const { address, city, state, lat, lng } = req.body;
 
+    // const newVenue = await Venue.create({
+    //   groupId,
+    //   address,
+    //   city,
+    //   state,
+    //   lat,
+    //   lng
+    // });
+
+    // const responseVenue = {
+    //   id: newVenue.id,
+    //   groupId: newVenue.groupId,
+    //   address: newVenue.address,
+    //   city: newVenue.city,
+    //   state: newVenue.state,
+    //   lat: newVenue.lat,
+    //   lng: newVenue.lng
+    // };
+
+    // res.status(200).json(responseVenue);
+
+    // Parse latitude and longitude as floats
+    const parsedLat = parseFloat(lat);
+    const parsedLng = parseFloat(lng);
+
+    if (isNaN(parsedLat) || isNaN(parsedLng)) {
+      return res.status(400).json({ message: "Invalid latitude or longitude" });
+    }
+
     const newVenue = await Venue.create({
       groupId,
       address,
       city,
       state,
-      lat,
-      lng
+      lat: parsedLat, // use parsed latitude
+      lng: parsedLng  // use parsed longitude
     });
 
     const responseVenue = {
