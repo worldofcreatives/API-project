@@ -39,11 +39,11 @@ module.exports = {
         allowNull: false
       },
       lat: {
-        type: Sequelize.DECIMAL(10, 7), // may need updating based on data
+        type: Sequelize.FLOAT(10, 7),
         allowNull: true
       },
       lng: {
-        type: Sequelize.DECIMAL(10, 7), // may need updating based on data
+        type: Sequelize.FLOAT(10, 7),
         allowNull: true
       },
       createdAt: {
