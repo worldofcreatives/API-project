@@ -166,6 +166,9 @@ router.get("/", async (req, res, next) => {
 
       delete group.groupImages
       delete group.memberships
+
+      // Convert numMembers from string to integer
+      group.numMembers = parseInt(group.numMembers, 10);
     })
 
     return res.json({"Groups": groupList});
