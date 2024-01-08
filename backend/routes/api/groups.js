@@ -451,14 +451,18 @@ router.post('/:groupId/venues', requireAuth, validateVenue, async (req, res, nex
 
     const { address, city, state, lat, lng } = req.body;
 
-    const newVenue = await Venue.create({
-      groupId,
-      address,
-      city,
-      state,
-      lat,
-      lng
-    });
+  // Parse latitude and longitude as integers
+  const intLat = parseInt(lat, 10);
+  const intLng = parseInt(lng, 10);
+
+  const newVenue = await Venue.create({
+    groupId,
+    address,
+    city,
+    state,
+    lat: intLat, // Use the integer latitude
+    lng: intLng  // Use the integer longitude
+  });
 
     const responseVenue = {
       id: newVenue.id,
