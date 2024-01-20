@@ -1,0 +1,55 @@
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+/* Style for the error messages */
+.error {
+    color: red;
+    font-size: 0.85em;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+
+/* Style for input labels */
+.pop-up-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+  }
+
+  /* Styles for input fields */
+  .pop-up-input {
+      box-sizing: border-box; /* Makes the input field include the padding and border in the width */
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+  }
+
+  /* Styles for the submit button */
+  .pop-up-submit-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: red;
+    color: white;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+  /* Hover state for the submit button */
+  .pop-up-submit-button:hover {
+      background-color: #cc0000;
+    }
+
+
+  /* Disabled state for the submit button */
+  .pop-up-submit-button:disabled {
+    background-color: #ccc;
+    cursor: default;
+  }
