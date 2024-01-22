@@ -30,7 +30,7 @@ function LoginFormModal() {
     e.preventDefault();
     setErrors({});
 
-    // Dispatch the login action directly with demo credentials
+    // login action directly with demo credentials
     const response = await dispatch(sessionActions.login({ credential: "demo@user.io", password: "password" }));
     if (response.ok) {
       closeModal();

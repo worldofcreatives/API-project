@@ -51,6 +51,9 @@ function ProfileButton({ user }) {
             <li>Hello, {user.firstName}</li>
             <li>{user.email}</li>
             <li>
+              <a href="/groups">View groups</a>
+            </li>
+            <li>
               <button onClick={logout}>Log Out</button>
             </li>
           </>
@@ -66,6 +69,9 @@ function ProfileButton({ user }) {
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
+            <li>
+              <a href="/groups">View groups</a>
+            </li>
           </>
         )}
       </ul>

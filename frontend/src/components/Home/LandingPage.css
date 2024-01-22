@@ -1,0 +1,76 @@
+.landing-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Section 1 styles */
+  .section-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .section-1 .content {
+    flex: 1;
+  }
+
+  .section-1 .infographic {
+    flex: 1;
+    /* Add styles for your infographic */
+  }
+
+  /* Section 2 styles */
+  .section-2 {
+    text-align: center;
+    padding: 20px;
+  }
+
+  /* Section 3 styles */
+  .section-3 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .section-3 .column {
+    flex: 1;
+    text-align: center;
+  }
+
+  .section-3 .link {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .section-3 .link.disabled {
+    color: grey;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* Section 4 styles */
+  .section-4 {
+    padding: 20px;
+  }
+
+  .join-meetup-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    /* Center button horizontally */
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Responsive design for Section 1 */
+  @media (max-width: 768px) {
+    .section-1 {
+      flex-direction: column;
+    }
+  }

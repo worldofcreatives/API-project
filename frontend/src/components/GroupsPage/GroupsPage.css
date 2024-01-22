@@ -1,0 +1,32 @@
+.groups-page nav {
+    display: flex;
+    justify-content: left;
+    gap: 20px;
+  }
+
+  .groups-page .active {
+    font-weight: bold;
+    text-decoration: underline;
+    color: teal;
+}
+
+  .group-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .group-container {
+    border-top: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 80%; /* Adjust as needed */
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .group-container img {
+    width: 100px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+    margin-right: 20px;
+  }
