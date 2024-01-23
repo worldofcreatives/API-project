@@ -1,18 +1,18 @@
 import { Link } from 'react-router-dom';
-import './GroupsPage.css';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchGroups } from '../../store/groups';
+import './GroupsPage.css';
 
 const GroupsPage = () => {
 
     const dispatch = useDispatch();
-  // Mock data or fetch from an API
-  const groups = useSelector((state) => state.groups.list)
+
+    const groups = useSelector((state) => state.groups.list)
 
   useEffect(() => {
-    dispatch(fetchGroups()); // Fetch groups when component mounts
+    dispatch(fetchGroups());
   }, [dispatch]);
 
 return (
@@ -26,12 +26,13 @@ return (
         {groups.map(group => (
           <a href={`/groups/${group.id}`} key={group.id} className="group-container">
           <div>
-              <img src={group.previewImage} alt={group.name} />
+            {/* Check if event.previewImage is not the specific string */}
+            <img src={group.previewImage !== "No preview image found." ? group.previewImage : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"} alt={group.name} />
               <div>
                 <h2>{group.name}</h2>
                 <p>{group.city}, {group.state}</p>
                 <p>{group.about}</p>
-                <p>{group.numMembers} members · {group.private ? 'Private' : 'Public'}</p>
+                <p>{group.numEvents} events · {group.private ? 'Private' : 'Public'}</p>
               </div>
           </div>
             </a>

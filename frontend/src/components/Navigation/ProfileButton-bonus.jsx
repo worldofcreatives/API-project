@@ -54,6 +54,9 @@ function ProfileButton({ user }) {
               <a href="/groups">View groups</a>
             </li>
             <li>
+              <a href="/events">View events</a>
+            </li>
+            <li>
               <button onClick={logout}>Log Out</button>
             </li>
           </>
@@ -71,6 +74,9 @@ function ProfileButton({ user }) {
             />
             <li>
               <a href="/groups">View groups</a>
+            </li>
+            <li>
+              <a href="/events">View events</a>
             </li>
           </>
         )}
