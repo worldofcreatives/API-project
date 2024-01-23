@@ -20,7 +20,7 @@ module.exports = {
       {
         groupId: 2,
         url: 'https://as2.ftcdn.net/v2/jpg/05/06/75/11/1000_F_506751155_fJ5Ko5T0wsTH7Q9VNwEgo6J81da8arlD.jpg',
-        preview: true,
+        preview: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },

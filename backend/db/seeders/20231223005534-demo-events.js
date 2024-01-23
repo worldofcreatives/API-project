@@ -39,13 +39,39 @@ module.exports = {
       {
         venueId: 2,
         groupId: 2,
-        name: 'Local Hack Day',
+        name: 'Just Another Local Hack Day',
         description: 'Hackathon event for local developers.',
         type: 'In person',
         capacity: 100,
         price: 0, //free event
-        startDate: new Date(2021, 10, 5),
-        endDate: new Date(2021, 10, 5),
+        startDate: new Date(2024, 10, 5),
+        endDate: new Date(2024, 10, 5),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        venueId: 2,
+        groupId: 2,
+        name: 'Past Local Hack Day',
+        description: 'Hackathon event for local developers.',
+        type: 'In person',
+        capacity: 100,
+        price: 0, //free event
+        startDate: new Date(2022, 10, 5),
+        endDate: new Date(2022, 10, 5),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        venueId: 2,
+        groupId: 2,
+        name: 'Just Another Future Local Hack Day',
+        description: 'Hackathon event for local developers.',
+        type: 'In person',
+        capacity: 100,
+        price: 0, //free event
+        startDate: new Date(2024, 9, 5),
+        endDate: new Date(2024, 9, 5),
         createdAt: new Date(),
         updatedAt: new Date()
       },

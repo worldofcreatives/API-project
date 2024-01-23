@@ -586,7 +586,8 @@ router.get('/:groupId/events', async (req, res, next) => {
         numAttending: event.dataValues.numAttending,
         previewImage,
         Group: event.group,
-        Venue: event.venue
+        Venue: event.venue,
+        description: event.description,
       };
     });
 
