@@ -121,6 +121,60 @@ router.post('/', requireAuth, validateGroup, async (req, res, next) => {
 });
 
 //^ Get all groups
+// router.get("/", async (req, res, next) => {
+//   try {
+//     const groups = await Group.findAll({
+//       include: [
+//         {
+//           model: GroupImage,
+//           as: "groupImages",
+//         },
+//         {
+//           model: Membership,
+//           as: "memberships",
+//         }
+//       ],
+//       attributes: {
+//         include: [
+//           [
+//             Sequelize.fn("COUNT", Sequelize.col("memberships.id")),
+//             "numMembers",
+//           ],
+//         ],
+
+//         exclude: ["memberships"],
+//       },
+//       group: ['Group.id', 'memberships.id', 'groupImages.id'],
+//     });
+
+//     let groupList = [];
+
+//     groups.forEach(group => {
+//       groupList.push(group.toJSON())
+//     });
+
+//     groupList.forEach(group => {
+//       group.groupImages.forEach( image => {
+//         if (image.preview === true) {
+//           group.previewImage  = image.url
+//         }
+//       })
+
+//       if (!group.previewImage) {
+//         group.previewImage = "No preview image found."
+//       }
+
+//       delete group.groupImages
+//       delete group.memberships
+//     })
+
+//     return res.json({"Groups": groupList});
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+//^ Get all groups
 router.get("/", async (req, res, next) => {
   try {
     const groups = await Group.findAll({
@@ -132,7 +186,7 @@ router.get("/", async (req, res, next) => {
         {
           model: Membership,
           as: "memberships",
-        }
+        },
       ],
       attributes: {
         include: [
@@ -147,28 +201,24 @@ router.get("/", async (req, res, next) => {
       group: ['Group.id', 'memberships.id', 'groupImages.id'],
     });
 
-    let groupList = [];
+    const groupList = await Promise.all(groups.map(async (group) => {
+      const groupJSON = group.toJSON();
 
-    groups.forEach(group => {
-      groupList.push(group.toJSON())
-    });
+      // Remove memberships array from the JSON object
+      delete groupJSON.memberships;
 
-    groupList.forEach(group => {
-      group.groupImages.forEach( image => {
-        if (image.preview === true) {
-          group.previewImage  = image.url
-        }
-      })
+      // Get the count of events for each group
+      const eventCount = await Event.count({ where: { groupId: group.id } });
+      groupJSON.numEvents = eventCount;
 
-      if (!group.previewImage) {
-        group.previewImage = "No preview image found."
-      }
+      // Process groupImages
+      groupJSON.previewImage = group.groupImages.find(img => img.preview === true)?.url || "No preview image found.";
+      delete groupJSON.groupImages;
 
-      delete group.groupImages
-      delete group.memberships
-    })
+      return groupJSON;
+    }));
 
-    return res.json({"Groups": groupList});
+    return res.json({ "Groups": groupList });
   } catch (err) {
     next(err);
   }
@@ -255,10 +305,14 @@ router.get('/:groupId', async (req, res, next) => {
     });
     const memberships = await group.getMemberships();
 
+    // Get the count of events for the group
+    const eventCount = await Event.count({ where: { groupId: group.id } });
+
     // Construct and send response
     const groupJSON = {
       ...group.toJSON(),
       numMembers: memberships.length,
+      numEvents: eventCount, // Added numEvents
       GroupImages: groupImages.map(gi => gi.toJSON()),
       Organizer: organizer ? organizer.toJSON() : {},
       Venues: venues.map(v => v.toJSON())

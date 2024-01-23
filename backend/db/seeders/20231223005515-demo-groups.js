@@ -44,7 +44,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        organizerId: 4,
+        organizerId: 2,
         name: 'Movie Nights',
         about: 'Weekly gatherings to watch and discuss movies',
         type: 'In person',
@@ -55,7 +55,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        organizerId: 5,
+        organizerId: 3,
         name: 'Culinary Cooks',
         about: 'Share recipes and cooking techniques',
         type: 'Online',
