@@ -4,7 +4,8 @@ import { csrfFetch } from './csrf';
 const SET_GROUPS = 'groups/setGroups';
 const SET_GROUP_DETAILS = 'groups/setGroupDetails';
 const SET_GROUP_EVENTS = 'groups/setGroupEvents';
-
+const CREATE_GROUP = "groups/CREATE_GROUP";
+const ADD_IMAGE = "groups/ADD_IMAGE";
 
 // action creators
 const setGroups = (groups) => ({
@@ -20,6 +21,17 @@ const setGroupDetails = (groupDetails) => ({
 const setGroupEvents = (events) => ({
   type: SET_GROUP_EVENTS,
   payload: events,
+});
+
+const createGroup = (group) => ({
+  type: CREATE_GROUP,
+  group,
+});
+
+const addImage = (groupId, image) => ({
+  type: ADD_IMAGE,
+  groupId,
+  image,
 });
 
 
@@ -43,7 +55,6 @@ export const fetchGroupDetails = (groupId) => async (dispatch) => {
     }
   } catch (error) {
     console.error('Error fetching group details:', error);
-    // Optionally, you can dispatch an error action here if you have error handling in your state
   }
 };
 
@@ -59,7 +70,44 @@ export const fetchGroupEvents = (groupId) => async (dispatch) => {
     }
   } catch (error) {
     console.error('Error fetching group events:', error);
-    // Optionally, you can dispatch an error action here if you have error handling in your state
+  }
+};
+
+export const thunkCreateGroup = (group) => async (dispatch) => {
+  const response = await csrfFetch("/api/groups", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(group),
+  });
+
+  if (response.ok) {
+    const group = await response.json();
+    dispatch(createGroup(group));
+    return group;
+  } else {
+    const error = await response.json();
+    return error;
+  }
+};
+
+export const thunkAddImage = (groupId, image) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}/images`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(image),
+  });
+
+  if (response.ok) {
+    const group = await response.json();
+    await dispatch(addImage(groupId, image));
+    return group;
+  } else {
+    const error = await response.json();
+    return error;
   }
 };
 
@@ -78,6 +126,20 @@ const groupsReducer = (state = initialState, action) => {
       return { ...state, groupDetails: action.payload };
     case SET_GROUP_EVENTS:
       return { ...state, groupEvents: action.payload };
+    case CREATE_GROUP: {
+      const groupsState = { ...state };
+      groupsState[action.group.id] = action.group;
+      return groupsState;
+    }
+    case ADD_IMAGE: {
+      const groupsState = { ...state };
+      if ("GroupImages" in groupsState[action.groupId]) {
+        groupsState[action.groupId].GroupImages.push(action.image);
+      } else {
+        groupsState[action.groupId].GroupImages = [action.image];
+      }
+      return groupsState;
+    }
     default:
       return state;
   }

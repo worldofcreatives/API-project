@@ -17,6 +17,13 @@ function Navigation({ isLoaded }) {
         </li>
       </ul>
       <ul className="nav-list">
+        {sessionUser && (
+          <li>
+            <NavLink to="/groups/new">
+              <button className="start-group-button">Start a New Group</button>
+            </NavLink>
+          </li>
+        )}
       {isLoaded && (
         <li>
           <ProfileButton user={sessionUser} />
