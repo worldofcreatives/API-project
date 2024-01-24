@@ -16,6 +16,21 @@ const EventsPage = () => {
     dispatch(fetchEvents())
   }, [dispatch]);
 
+  // Sort events by date
+  const sortedEvents = events.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+
+  const now = new Date();
+
+  // Separate upcoming and past events
+  const upcomingEvents = sortedEvents.filter(event => new Date(event.startDate) >= now);
+  const pastEvents = sortedEvents.filter(event => new Date(event.startDate) < now);
+
+  // Sort past events by most recent
+  const sortedPastEvents = pastEvents.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+
+  // Combine the events
+  const sortedAndFilteredEvents = [...upcomingEvents, ...sortedPastEvents];
+
   // formatting my dates
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
@@ -30,7 +45,7 @@ const EventsPage = () => {
        </nav>
         <p>Events in Meetup</p>
       <div className="event-list">
-        {events.map(event => (
+        {sortedAndFilteredEvents.map(event => (
           console.log("🚀 ~ EventsPage ~ event:", event),
             <a href={`/events/${event.id}`} key={event.id} className="event-container">
           <div>
