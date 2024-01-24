@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroupDetails } from '../../store/groups';
-import './GroupDetailPage.css';
 import GroupEventList from '../GroupEventsList/GroupEventList';
+import './GroupDetailPage.css';
 
 const GroupDetailPage = () => {
   const { id } = useParams();
@@ -57,7 +57,7 @@ const GroupDetailPage = () => {
       <nav>
         <Link to="/groups">Groups</Link>
       </nav>
-      <header>
+      <div>
         {/* Check if event.previewImage is not the specific string */}
         <img src={imageWithPreview !== undefined ? imageWithPreview.url : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"} alt={groupDetails.name} />
         <div>
@@ -90,12 +90,12 @@ const GroupDetailPage = () => {
         <div>
           <h1>Organizer</h1>
           <p>{groupDetails.Organizer.firstName} {groupDetails.Organizer.lastName}</p>
-          <h1>What we're about</h1>
+          <h1>What we&apos;re about</h1>
           <p>{groupDetails.about}</p>
           <h1>Events ({groupDetails.numEvents})</h1>
           {<GroupEventList />}
         </div>
-      </header>
+      </div>
     </div>
   );
 };
