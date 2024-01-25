@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroupDetails } from '../../store/groups';
 import GroupEventList from '../GroupEventsList/GroupEventList';
 import './GroupDetailPage.css';
 
+
 const GroupDetailPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currentUser = useSelector(state => state.session.user); // Assuming the user info is stored here
   console.log("🚀 ~ GroupDetailPage ~ currentUser:", currentUser)
 
@@ -41,7 +43,7 @@ const GroupDetailPage = () => {
 
   // Handlers for the buttons
   const handleCreateEvent = () => {
-    // Logic to handle event creation
+    navigate('/create-event', { state: { groupId: id, groupName: groupDetails.name } });
   };
 
   const handleUpdateGroup = () => {

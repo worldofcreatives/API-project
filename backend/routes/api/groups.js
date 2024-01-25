@@ -44,7 +44,7 @@ const validateGroup = [
 const validateEvent = [
   check('name').isLength({ min: 5 }).withMessage('Name must be at least 5 characters'),
   check('type').isIn(['Online', 'In person']).withMessage('Type must be Online or In person'),
-  check('capacity').isInt().withMessage('Capacity must be an integer'),
+  // check('capacity').isInt().withMessage('Capacity must be an integer'),
   check('price').isFloat({ min: 0 }).withMessage('Price is invalid'),
   check('description').notEmpty().withMessage('Description is required'),
   check('startDate')

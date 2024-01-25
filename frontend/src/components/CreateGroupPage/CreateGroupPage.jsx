@@ -66,7 +66,7 @@ const CreateGroupPage = () => {
         setValidationErrors(createdGroup.errors);
       } else {
         await dispatch(thunkAddImage(createdGroup.id, newImageReqBody));
-        navigate(`/groups/${createdGroup.id}`);
+        navigate(`/events/${createdGroup.id}`);
       }
     }
   };
