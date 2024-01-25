@@ -36,9 +36,7 @@ const EditGroupPage = () => {
 
     useEffect(() => {
       if (user === null) {
-          // Redirect or clear form fields
           navigate("/");
-          // Clearing form fields if necessary
           setCity('');
           setState('');
           setName('');
