@@ -19,9 +19,9 @@ const EditGroupPage = () => {
     const dispatch = useDispatch();
 
     const user = useSelector(state => state.session.user);
-    const isOwner = userId == user.id;
+    console.log("🚀 ~ EditGroupPage ~ user:", user)
 
-    if (isOwner == false) {
+    if (user === null || userId !== user.id) {
         navigate("/");
       }
 
@@ -34,7 +34,20 @@ const EditGroupPage = () => {
     const [validationErrors, setValidationErrors] = useState({});
 
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+      if (user === null) {
+          // Redirect or clear form fields
+          navigate("/");
+          // Clearing form fields if necessary
+          setCity('');
+          setState('');
+          setName('');
+          setAbout('');
+          setType('');
+          setPrivacy('');
+      }
+  }, [user, navigate]);
+
 
     const handleSubmit = async (e) => {
       e.preventDefault();
