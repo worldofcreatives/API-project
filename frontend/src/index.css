@@ -1,1 +1,63 @@
 /* TODO: Add sitewide styles */
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;600;700;800&family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400;1,500&display=swap');
+
+
+
+body {
+    font-family: 'Source Sans 3', sans-serif;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+}
+
+h1 {
+    font-family: 'Gabarito', sans-serif;
+    font-size: 24px;
+}
+
+h2 {
+    font-family: 'Gabarito', sans-serif;
+    font-size: 18px;
+}
+
+h3 {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 16px;
+}
+
+h4 {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+}
+
+h5 {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12px;
+}
+
+h6 {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10px;
+}
+
+p {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+}
+
+.main-button-1 {
+    padding: 10px 20px;
+    background-color: #11308C;
+    color: white;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: none;
+    padding: 15px 20px;
+    font-size: 16px;
+  }
+
+.main-button-1:hover {
+    background-color: #0A1B53;
+}

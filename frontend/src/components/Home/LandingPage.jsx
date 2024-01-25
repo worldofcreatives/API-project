@@ -10,39 +10,39 @@ const LandingPage = () => {
     <div className="landing-page">
       <section className="section section-1">
         <div className="content">
-          <h1>The people platform—Where interests become friendships</h1>
-          <p>Introductory text...</p>
+          <h1>Unleash your creativity with other creators near you</h1>
+          <p>Dive into a world where art meets community. Connect, create, and collaborate!</p>
         </div>
-        <div className="infographic">
-          <img src="../../../public/images/header.png" alt="Infographic" />
+        <div className="landing-img">
+          <img src="../../../public/images/header.png" alt="Infographic" className="landing-img"/>
         </div>
       </section>
 
       <section className="section section-2">
-        <h2>How Offline Works</h2>
-        <p>This is all about how Offline works! What do you think?</p>
+        <h2>Discover & Participate.</h2>
+        <p>Explore a variety of art groups ranging from painting, music, dance and poetry. Join workshops, collaborate on projects, or attend exhibitions. Whether you're a beginner or a seasoned artist, there's a place for you.</p>
       </section>
 
       <section className="section section-3">
         <div className="column">
           <img src="../../../public/images/thumb-1.png" alt="See All Groups Image" className="section section-3 thumbnail"/>
           <a href="/groups" className="link">See all groups</a>
-          <p>Caption for groups...</p>
+          <p>Find your niche in our diverse artistic collectives.</p>
         </div>
         <div className="column">
           <img src="../../../public/images/thumb-2.png" alt="Find an Event Image" className="section section-3 thumbnail"/>
           <a href="/events" className="link">Find an event</a>
-          <p>Caption for events...</p>
+          <p>From workshops to gallery nights, discover events that spark your creativity.</p>
         </div>
         <div className="column">
           <img src="../../../public/images/thumb-3.png" alt="Start a Group Image" className="section section-3 thumbnail"/>
           <a href="/start" className={`link ${!isLoggedIn ? 'disabled' : ''}`}>Start a group</a>
-          <p>Caption for starting a group...</p>
+          <p>Lead your own creative journey and inspire others by starting a group.</p>
         </div>
       </section>
 
       <section className="section section-4">
-        <button className="join-meetup-button">Join Offline</button>
+        <button className="main-button-1">Join World of Creatives Today</button>
       </section>
     </div>
   );
