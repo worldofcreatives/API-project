@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchEventDetails } from '../../store/events';
+import { fetchEventDetails, thunkRemoveEvent } from '../../store/events';
 import { fetchGroupDetails } from '../../store/groups';
 import './EventDetailPage.css';
 
@@ -10,6 +10,8 @@ import './EventDetailPage.css';
 const EventDetailPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const eventDetails = useSelector(state => state.events.eventDetails);
   console.log("🚀 ~ EventDetailPage ~ eventDetails:", eventDetails)
   const groupDetails = useSelector(state => state.groups.groupDetails);
@@ -21,6 +23,7 @@ const EventDetailPage = () => {
 
   const [isEventDetailsLoaded, setIsEventDetailsLoaded] = useState(false);
   const [isGroupDetailsLoaded, setIsGroupDetailsLoaded] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
 
   useEffect(() => {
@@ -67,7 +70,20 @@ console.log("🚀 ~ EventDetailPage ~ isEventCreator:", isEventCreator)
   };
 
   const handleDeleteEvent = () => {
-    // Logic to handle event deletion
+    setShowDeleteConfirmation(true);
+  };
+
+  const handleDeleteClick = () => {
+    setShowDeleteConfirmation(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    const result = await dispatch(thunkRemoveEvent(eventDetails.id));
+    if (result.message === "Successfully deleted") {
+      navigate(`/groups/${groupDetails.id}`);
+    } else {
+      // Handle error
+    }
   };
 
   // formatting my dates
@@ -104,6 +120,13 @@ console.log("🚀 ~ EventDetailPage ~ isEventCreator:", isEventCreator)
                     <button onClick={handleDeleteEvent} className="delete-event-button">
                       Delete
                     </button>
+                    {showDeleteConfirmation && (
+                      <div className='confirmation-modal'>
+                        <p>Are you sure you want to delete this event?</p>
+                        <button onClick={handleConfirmDelete}>Yes, delete this event</button>
+                        <button onClick={() => setShowDeleteConfirmation(false)}>No, keep this event.</button>
+                      </div>
+                    )}
                   </div>
                 )}
         </div>
@@ -114,8 +137,7 @@ console.log("🚀 ~ EventDetailPage ~ isEventCreator:", isEventCreator)
             </div>
             <div>
               <div>
-              {groupImageWithPreview &&
-                <img src={groupImageWithPreview !== undefined ? groupImageWithPreview.url : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"} alt={groupDetails.name} />
+              {<img src={groupImageWithPreview !== undefined ? groupImageWithPreview.url : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"} alt={groupDetails?.name} />
               }
                 <h3>{eventDetails.Group.name}</h3>
                 <p>{eventDetails.Group.private ? 'Private' : 'Public'}</p>

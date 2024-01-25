@@ -5,6 +5,8 @@ const SET_EVENTS = 'events/setEvents';
 const SET_EVENT_DETAILS = 'events/setEventDetails';
 const CREATE_EVENT = 'events/CREATE_EVENT';
 const ADD_EVENT_IMAGE = 'events/ADD_EVENT_IMAGE';
+const REMOVE_EVENT = 'events/REMOVE_EVENT';
+
 
 // Action creator for setting events
 const setEvents = (events) => ({
@@ -26,6 +28,11 @@ const addEventImage = (eventId, image) => ({
   type: ADD_EVENT_IMAGE,
   eventId,
   image,
+});
+
+const removeEvent = (eventId) => ({
+  type: REMOVE_EVENT,
+  eventId,
 });
 
 // Thunk action for fetching events
@@ -88,6 +95,20 @@ export const thunkAddEventImage = (eventId, image) => async (dispatch) => {
   }
 };
 
+export const thunkRemoveEvent = (eventId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/events/${eventId}`, {
+    method: "DELETE",
+  });
+
+  if (response.ok) {
+    dispatch(removeEvent(eventId));
+    return response.json(); // You can also handle success message here
+  } else {
+    const error = await response.json();
+    return error;
+  }
+};
+
 // Initial state
 const initialState = {
   list: [],
@@ -105,6 +126,10 @@ const eventsReducer = (state = initialState, action) => {
       const eventsState = { ...state };
       eventsState.list.push(action.event);
       return eventsState;
+    }
+    case REMOVE_EVENT: {
+      const updatedEvents = state.list.filter(event => event.id !== action.eventId);
+      return { ...state, list: updatedEvents, eventDetails: {} };
     }
     case ADD_EVENT_IMAGE: {
       const eventsState = { ...state };
