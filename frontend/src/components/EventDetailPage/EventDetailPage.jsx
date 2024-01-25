@@ -73,9 +73,9 @@ console.log("🚀 ~ EventDetailPage ~ isEventCreator:", isEventCreator)
     setShowDeleteConfirmation(true);
   };
 
-  const handleDeleteClick = () => {
-    setShowDeleteConfirmation(true);
-  };
+  // const handleDeleteClick = () => {
+  //   setShowDeleteConfirmation(true);
+  // };
 
   const handleConfirmDelete = async () => {
     const result = await dispatch(thunkRemoveEvent(eventDetails.id));
@@ -120,11 +120,12 @@ console.log("🚀 ~ EventDetailPage ~ isEventCreator:", isEventCreator)
                     <button onClick={handleDeleteEvent} className="delete-event-button">
                       Delete
                     </button>
-                    {showDeleteConfirmation && (
+                    {showDeleteConfirmation && (<div className='modal-backdrop'>
                       <div className='confirmation-modal'>
                         <p>Are you sure you want to delete this event?</p>
-                        <button onClick={handleConfirmDelete}>Yes, delete this event</button>
+                        <button onClick={handleConfirmDelete}  className='red'>Yes, delete this event</button>
                         <button onClick={() => setShowDeleteConfirmation(false)}>No, keep this event.</button>
+                      </div>
                       </div>
                     )}
                   </div>

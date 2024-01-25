@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGroupDetails } from '../../store/groups';
+import { fetchGroupDetails, thunkRemoveGroup } from '../../store/groups';
 import GroupEventList from '../GroupEventsList/GroupEventList';
 import './GroupDetailPage.css';
 
@@ -15,6 +15,8 @@ const GroupDetailPage = () => {
 
   const groupDetails = useSelector(state => state.groups.groupDetails);
   console.log("🚀 ~ GroupDetailPage ~ groupDetails:", groupDetails)
+
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   useEffect(() => {
     dispatch(fetchGroupDetails(id));
@@ -32,14 +34,19 @@ const GroupDetailPage = () => {
   console.log("🚀 ~ GroupDetailPage ~ pastEvents:", pastEvents)
 
   // get image url
-  let imageWithPreview = groupDetails.GroupImages.find(image => image.preview === true);
+  // let imageWithPreview = groupDetails.GroupImages.find(image => image.preview === true);
+  let imageWithPreview;
+  if (groupDetails.GroupImages && groupDetails.GroupImages.length > 0) {
+    imageWithPreview = groupDetails.GroupImages.find(image => image.preview === true);
+  }
+
   console.log("🚀 ~ GroupDetailPage ~ imageWithPreview:", imageWithPreview)
 
   // Check if the user is logged in and is not the group creator
-  const showJoinButton = currentUser && groupDetails.Organizer.id !== currentUser.id;
+  const showJoinButton = currentUser && groupDetails.Organizer?.id !== currentUser.id;
 
   // Check if the user is the group creator
-  const isGroupCreator = currentUser && groupDetails.Organizer.id === currentUser.id;
+  const isGroupCreator = currentUser && groupDetails.Organizer?.id === currentUser.id;
 
   // Handlers for the buttons
   const handleCreateEvent = () => {
@@ -47,11 +54,29 @@ const GroupDetailPage = () => {
   };
 
   const handleUpdateGroup = () => {
-    // Logic to handle group update
+    navigate(`/edit-group`, { state: {
+      groupId: id,
+      userId: groupDetails.organizerId,
+      groupName: groupDetails.name,
+      groupCity: groupDetails.city,
+      groupState: groupDetails.state,
+      groupAbout: groupDetails.about,
+      groupType: groupDetails.type,
+      groupPrivate: groupDetails.private
+     } });
   };
 
   const handleDeleteGroup = () => {
-    // Logic to handle group deletion
+    setShowDeleteConfirmation(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    const result = await dispatch(thunkRemoveGroup(groupDetails.id));
+    if (result.message === "Successfully deleted") {
+      navigate(`/groups`);
+    } else {
+      // Handle error
+    }
   };
 
   return (
@@ -66,7 +91,7 @@ const GroupDetailPage = () => {
           <h1>{groupDetails.name}</h1>
           <p>{groupDetails.city}, {groupDetails.state}</p>
           <p>{groupDetails.numEvents} events · {groupDetails.private ? 'Private' : 'Public'}</p>
-          <p>Organized by {groupDetails.Organizer.firstName} {groupDetails.Organizer.lastName}</p>
+          <p>Organized by {groupDetails.Organizer?.firstName} {groupDetails.Organizer?.lastName}</p>
           {showJoinButton && (
         <button
             onClick={() => alert('Feature coming soon')}
@@ -86,12 +111,20 @@ const GroupDetailPage = () => {
               <button onClick={handleDeleteGroup} className="delete-group-button">
                 Delete
               </button>
+              {showDeleteConfirmation && (<div className='modal-backdrop'>
+                  <div className='confirmation-modal'>
+                    <p>Are you sure you want to delete this group?</p>
+                    <button onClick={handleConfirmDelete}  className='red'>Yes, delete this group</button>
+                    <button onClick={() => setShowDeleteConfirmation(false)}>No, keep this event.</button>
+                  </div>
+                  </div>
+                )}
             </div>
           )}
         </div>
         <div>
           <h1>Organizer</h1>
-          <p>{groupDetails.Organizer.firstName} {groupDetails.Organizer.lastName}</p>
+          <p>{groupDetails.Organizer?.firstName} {groupDetails.Organizer?.lastName}</p>
           <h1>What we&apos;re about</h1>
           <p>{groupDetails.about}</p>
           <h1>Events ({groupDetails.numEvents})</h1>

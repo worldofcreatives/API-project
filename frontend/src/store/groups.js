@@ -6,6 +6,9 @@ const SET_GROUP_DETAILS = 'groups/setGroupDetails';
 const SET_GROUP_EVENTS = 'groups/setGroupEvents';
 const CREATE_GROUP = "groups/CREATE_GROUP";
 const ADD_IMAGE = "groups/ADD_IMAGE";
+const REMOVE_GROUP = 'groups/REMOVE_GROUP';
+const UPDATE_GROUP = 'groups/UPDATE_GROUP';
+
 
 // action creators
 const setGroups = (groups) => ({
@@ -32,6 +35,16 @@ const addImage = (groupId, image) => ({
   type: ADD_IMAGE,
   groupId,
   image,
+});
+
+const removeGroup = (groupId) => ({
+  type: REMOVE_GROUP,
+  groupId,
+});
+
+const updateGroup = (group) => ({
+  type: UPDATE_GROUP,
+  group,
 });
 
 
@@ -111,6 +124,40 @@ export const thunkAddImage = (groupId, image) => async (dispatch) => {
   }
 };
 
+export const thunkRemoveGroup = (groupId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}`, {
+    method: "DELETE",
+  });
+
+  if (response.ok) {
+    dispatch(removeGroup(groupId));
+    return response.json();
+  } else {
+    const error = await response.json();
+    return error;
+  }
+};
+
+export const thunkUpdateGroup = (groupId, groupData) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(groupData),
+  });
+
+  if (response.ok) {
+    const updatedGroup = await response.json();
+    dispatch(updateGroup(updatedGroup));
+    return updatedGroup;
+  } else {
+    const error = await response.json();
+    return error;
+  }
+};
+
+
 
 const initialState = {
   list: [],
@@ -131,6 +178,10 @@ const groupsReducer = (state = initialState, action) => {
       groupsState[action.group.id] = action.group;
       return groupsState;
     }
+    case REMOVE_GROUP: {
+      const updatedGroups = state.list.filter(group => group.id !== action.groupId);
+      return { ...state, list: updatedGroups, groupDetails: null };
+    }
     case ADD_IMAGE: {
       const groupsState = { ...state };
       if ("GroupImages" in groupsState[action.groupId]) {
@@ -139,6 +190,16 @@ const groupsReducer = (state = initialState, action) => {
         groupsState[action.groupId].GroupImages = [action.image];
       }
       return groupsState;
+    }
+    case UPDATE_GROUP: {
+      const updatedGroups = state.list.map((group) =>
+        group.id === action.group.id ? action.group : group
+      );
+      return {
+        ...state,
+        list: updatedGroups,
+        groupDetails: action.group,
+      };
     }
     default:
       return state;
