@@ -30,7 +30,7 @@ function LoginFormModal() {
     e.preventDefault();
     setErrors({});
 
-    // Dispatch the login action directly with demo credentials
+    // login action directly with demo credentials
     const response = await dispatch(sessionActions.login({ credential: "demo@user.io", password: "password" }));
     if (response.ok) {
       closeModal();
@@ -69,9 +69,8 @@ function LoginFormModal() {
             required
           />
         </label>
-        {/* {errors.credential && <p>{errors.credential}</p>} */}
-        <button type="submit" disabled={disableLogin} className="pop-up-submit-button">Log In</button>
-        <button onClick={handleDemoLogin} className="pop-up-demo-button">Log in as Demo User</button>
+        <button type="submit" disabled={disableLogin} className="main-button-1">Log In</button>
+        <button onClick={handleDemoLogin} className="main-button-2">Log in as Demo User</button>
       </form>
     </div>
   );

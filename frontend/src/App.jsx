@@ -5,6 +5,14 @@ import { Outlet, createBrowserRouter, RouterProvider } from 'react-router-dom';
 // import SignupFormPage from './components/SignupFormPage';
 import Navigation from './components/Navigation/Navigation-bonus';
 import * as sessionActions from './store/session';
+import LandingPage from './components/Home';
+import GroupsPage from './components/GroupsPage/GroupsPage';
+import EventsPage from './components/EventsPage/EventsPage';
+import GroupDetailPage from './components/GroupDetailPage';
+import EventDetailPage from './components/EventDetailPage';
+import CreateGroupPage from './components/CreateGroupPage';
+import CreateEventPage from './components/CreateEventPage/CreateEventPage';
+import EditGroupPage from './components/EditGroupPage/EditGroupPage';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -30,8 +38,36 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <h1>Welcome!</h1>
+        element: <LandingPage />
       },
+      {
+        path: '/groups',
+        element: <GroupsPage />
+      },
+      {
+        path: '/events',
+        element: <EventsPage />
+      },
+      {
+        path: 'groups/:id',
+        element: <GroupDetailPage />
+      },
+      {
+        path: 'events/:id',
+        element: <EventDetailPage />
+      },
+      {
+        path: 'groups/new',
+        element: <CreateGroupPage />
+      },
+      {
+        path: 'create-event',
+        element: <CreateEventPage />
+      },
+      {
+        path: 'edit-group',
+        element: <EditGroupPage />
+      }
       // {
       //   path: 'login',
       //   element: <LoginFormPage />

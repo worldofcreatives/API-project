@@ -4,7 +4,6 @@ h1 {
   margin-bottom: 10px;
 }
 
-/* Style for the error messages */
 .error {
   color: red;
   font-size: 0.85em;
@@ -12,16 +11,14 @@ h1 {
   margin-bottom: 10px;
 }
 
-/* Style for input labels */
 .pop-up-label {
   display: block;
   margin-bottom: 5px;
   color: #333;
 }
 
-/* Styles for input fields */
 .pop-up-input {
-    box-sizing: border-box; /* Makes the input field include the padding and border in the width */
+    box-sizing: border-box;
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -29,42 +26,7 @@ h1 {
     border-radius: 4px;
 }
 
-/* Styles for the submit button */
-.pop-up-submit-button {
+button {
   width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: red;
-  color: white;
-  margin-bottom: 10px;
-  cursor: pointer;
 }
 
-/* Hover state for the submit button */
-.pop-up-submit-button:hover {
-    background-color: #cc0000;
-  }
-
-
-/* Disabled state for the submit button */
-.pop-up-submit-button:disabled {
-  background-color: #ccc;
-  cursor: default;
-}
-
-/* Styles for the demo user button */
-.pop-up-demo-button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #f3f3f3;
-    color: #333;
-    cursor: pointer;
-    text-decoration: none;
-  }
-
-.pop-up-demo-button:hover {
-    background-color: #c9c9c9;
-}

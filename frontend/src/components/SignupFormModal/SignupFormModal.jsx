@@ -116,7 +116,7 @@ function SignupFormModal() {
         {Object.values(errors).map((error, idx) => (
             <div key={idx} className="error">{error}</div>
           ))}
-        <button type="submit" disabled={disableLogin} className="pop-up-submit-button">Sign Up</button>
+        <button type="submit" disabled={disableLogin} className="main-button-1">Sign Up</button>
       </form>
     </>
   );

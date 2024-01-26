@@ -1,0 +1,67 @@
+.events-page nav {
+    display: flex;
+    justify-content: left;
+    gap: 20px;
+  }
+
+  .events-page .active {
+    font-weight: bold;
+    text-decoration: underline;
+    color: teal;
+}
+
+  .event-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .event-container {
+    border-top: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+  }
+
+  .event-container img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    margin-right: 20px;
+    border-radius: 10px;
+  }
+
+  .event-container > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .event-container h2, .event-container p {
+    margin: 0;
+  }
+
+  .event-container h2 {
+    font-size: 40px;
+  }
+
+  .event-container p:first-of-type {
+    font-weight: bold;
+  }
+
+  .event-container p:nth-of-type(2) {
+    /* Style for the about text */
+  }
+
+  .event-container p:nth-of-type(3) {
+    /* Style for the events and public/private text */
+  }
+
+  .event-page nav a {
+    white-space: nowrap; /
+  }

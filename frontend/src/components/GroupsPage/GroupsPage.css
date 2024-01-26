@@ -1,0 +1,67 @@
+.groups-page nav {
+    display: flex;
+    justify-content: left;
+    gap: 20px;
+  }
+
+  .groups-page .active {
+    font-weight: bold;
+    text-decoration: underline;
+    color: teal;
+}
+
+  .group-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+.group-container {
+  border-top: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 80%;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+}
+
+.group-container img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  margin-right: 20px;
+  border-radius: 10px;
+}
+
+.group-container > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.group-container h2, .group-container p {
+  margin: 0;
+}
+
+.group-container h2 {
+  font-size: 40px;
+}
+
+.group-container p:first-of-type {
+  font-weight: bold;
+}
+
+.group-container p:nth-of-type(2) {
+  /* Style for the about text */
+}
+
+.group-container p:nth-of-type(3) {
+  /* Style for the events and public/private text */
+}
+
+.groups-page nav a {
+  white-space: nowrap; /
+}
