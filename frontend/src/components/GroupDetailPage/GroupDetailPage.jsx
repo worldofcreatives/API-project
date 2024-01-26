@@ -10,7 +10,7 @@ const GroupDetailPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentUser = useSelector(state => state.session.user); // Assuming the user info is stored here
+  const currentUser = useSelector(state => state.session.user);
   console.log("🚀 ~ GroupDetailPage ~ currentUser:", currentUser)
 
   const groupDetails = useSelector(state => state.groups.groupDetails);

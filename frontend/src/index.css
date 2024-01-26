@@ -42,12 +42,16 @@ h6 {
 
 p {
     font-family: 'Source Sans 3', sans-serif;
-    font-size: 14px;
+    font-size: 16px;
+}
+
+button {
+    cursor: pointer;
 }
 
 .main-button-1 {
     padding: 10px 20px;
-    background-color: #11308C;
+    background-color: #628C2A;
     color: white;
     cursor: pointer;
     display: block;
@@ -56,8 +60,44 @@ p {
     border: none;
     padding: 15px 20px;
     font-size: 16px;
-  }
+}
 
 .main-button-1:hover {
-    background-color: #0A1B53;
+    background-color: #0a530e;
+}
+
+.main-button-1:disabled {
+    background-color: #ccc;
+    cursor: default;
+}
+
+.main-button-2 {
+    padding: 10px 20px;
+    background-color: #f3f3f3;
+    color: #333;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: none;
+    padding: 15px 20px;
+    font-size: 16px;
+}
+
+.main-button-2:hover {
+    background-color: #c9c9c9;
+}
+
+.main-button-2:disabled {
+    background-color: #000;
+    color: #ccc;
+    cursor: default;
+}
+
+.menu-button {
+    width: 35px;
+    height: 35px;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 }

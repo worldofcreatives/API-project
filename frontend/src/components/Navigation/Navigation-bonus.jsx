@@ -18,9 +18,9 @@ function Navigation({ isLoaded }) {
       </ul>
       <ul className="nav-list">
         {sessionUser && (
-          <li>
+          <li className='space-r'>
             <NavLink to="/groups/new">
-              <button className="start-group-button">Start a New Group</button>
+              <button className="start-group-button main-button-1">Start a New Group</button>
             </NavLink>
           </li>
         )}
