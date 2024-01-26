@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { thunkAddImage, thunkCreateGroup } from "../../store/groups";
+import './CreateGroupPage.css';
 
 const CreateGroupPage = () => {
   const navigate = useNavigate();
@@ -21,9 +22,6 @@ const CreateGroupPage = () => {
     e.preventDefault();
 
     const errors = {};
-    const urlEndings = [".png", ".jpg", ".jpeg"];
-    const urlEnding3 = imageUrl.slice(-4);
-    const urlEnding4 = imageUrl.slice(-5);
 
     if (!city)
       errors.city =
@@ -73,7 +71,7 @@ const CreateGroupPage = () => {
 
 return (
     <section className="group-section">
-      <h1>Start a New Group</h1>
+      <h1 className="large">Start a New Group</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <h2>Set your group&apos;s location</h2>
@@ -90,7 +88,7 @@ return (
               onChange={(e) => setCity(e.target.value)}
             />
           </label>
-          <span id="comma-span">,</span>
+          <span id="comma-span"> , </span>
           <label htmlFor="state">
             <input
               type="text"
@@ -118,7 +116,7 @@ return (
             What will your group name be?
           </h2>
           <p>
-          Choose a name that will give people a clear idea of what the group is about. Feel free to get creative! You can edit this later if you change your mind.", and a text input with a placeholder of "What is your group name?
+          Choose a name that will give people a clear idea of what the group is about. Feel free to get creative! You can edit this later if you change your mind.&quot;, and a text input with a placeholder of &quot;What is your group name?
           </p>
           <label>
             <input
@@ -139,7 +137,7 @@ return (
           <h2>Describe the purpose of your group.</h2>
           <label>
             <p>
-            People will see this when we promote your group, but you'll be able to add to it later, too. 1. What's the purpose of the group? 2. Who should join? 3. What will you do at your events?
+            People will see this when we promote your group, but you&apos;ll be able to add to it later, too. 1. What&apos;s the purpose of the group? 2. Who should join? 3. What will you do at your events?
             </p>
           </label>
           <textarea
@@ -226,7 +224,7 @@ return (
           </div>
         </div>
         <div>
-          <button onSubmit={handleSubmit}>Create Group</button>
+          <button onSubmit={handleSubmit} className="main-button-1">Create Group</button>
         </div>
       </form>
     </section>

@@ -2,12 +2,31 @@
     display: flex;
     justify-content: left;
     gap: 20px;
+    max-width: 80%;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
   }
 
-  .events-page .active {
+  .active {
     font-weight: bold;
     text-decoration: underline;
     color: teal;
+    font-size: 40px;
+}
+
+.nonactive {
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+  font-size: 40px;
+}
+
+.head-text {
+  width: 80%;
+  margin: auto;
+  text-align: left;
+  margin-bottom: 20px;
 }
 
   .event-list {

@@ -40,10 +40,10 @@ const EventsPage = () => {
   return (
     <div className="events-page">
       <nav>
-         <Link to="/events">Events</Link>
-         <Link to="/groups" className="active">Groups</Link>
+         <Link to="/events" className="active">Events</Link>
+         <Link to="/groups" className="nonactive">Groups</Link>
        </nav>
-        <p>Events in Meetup</p>
+        <h1 className='head-text'>Events in World of Creatives</h1>
       <div className="event-list">
         {sortedAndFilteredEvents.map(event => (
           console.log("🚀 ~ EventsPage ~ event:", event),

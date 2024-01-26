@@ -102,6 +102,11 @@ console.log("🚀 ~ EventDetailPage ~ isEventCreator:", isEventCreator)
     return <div>Loading...</div>;
   }
 
+  //🚨 added this code, but may not need it
+  if (!isEventDetailsLoaded || !isGroupDetailsLoaded) {
+    return <div>Loading group and event details...</div>;
+  }
+
   return (
     <div className="event-detail-page">
         <nav>

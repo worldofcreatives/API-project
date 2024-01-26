@@ -8,6 +8,7 @@ body {
     line-height: 1.5;
     color: #212529;
     text-align: left;
+    padding-bottom: 60px;
 }
 
 h1 {
@@ -47,6 +48,10 @@ p {
 
 button {
     cursor: pointer;
+}
+
+.large {
+    font-size: 40px;
 }
 
 .main-button-1 {
@@ -100,4 +105,48 @@ button {
     border: none;
     cursor: pointer;
     padding: 0;
+}
+
+input[type="text"] {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="password"] {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="url"] {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+select {
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }

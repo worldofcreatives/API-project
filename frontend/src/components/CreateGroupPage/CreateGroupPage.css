@@ -1,0 +1,12 @@
+#group-city {
+    width: auto;
+}
+
+#group-state {
+    width: auto;
+}
+
+form {
+    max-width: 800px;
+    margin: auto;
+}
