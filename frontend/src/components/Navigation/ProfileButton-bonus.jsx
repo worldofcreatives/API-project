@@ -44,7 +44,7 @@ function ProfileButton({ user }) {
   return (
     <>
       <button onClick={toggleMenu} className='menu-button'>
-        <i className="fas fa-user-circle" />
+        <i className="fas fa-user-circle profile-icon" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
@@ -53,13 +53,13 @@ function ProfileButton({ user }) {
             <li>Hello, {user.firstName}</li>
             <li>{user.email}</li>
             <li>
-              <a href="/groups">View groups</a>
+              <a href="/groups" className='small-button-2'>View groups</a>
             </li>
             <li>
-              <a href="/events">View events</a>
+              <a href="/events" className='small-button-2'>View events</a>
             </li>
             <li>
-              <button onClick={logout}>Log Out</button>
+              <button onClick={logout} className='small-button-1'>Log Out</button>
             </li>
           </>
         ) : (
@@ -75,10 +75,10 @@ function ProfileButton({ user }) {
               modalComponent={<SignupFormModal />}
             />
             <li>
-              <a href="/groups">View groups</a>
+              <a href="/groups" className='small-button-2'>View groups</a>
             </li>
             <li>
-              <a href="/events">View events</a>
+              <a href="/events" className='small-button-2'>View events</a>
             </li>
           </>
         )}

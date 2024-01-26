@@ -14,7 +14,7 @@ const LandingPage = () => {
           <p>Dive into a world where art meets community. Connect, create, and collaborate!</p>
         </div>
         <div className="landing-img">
-          <img src="../../../public/images/landing-img.jpg" alt="Infographic" className="landing-img"/>
+          <img src="https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b416a2f1590951b4125242_landing-img.jpg" alt="Infographic" className="landing-img"/>
         </div>
       </section>
 
@@ -25,17 +25,17 @@ const LandingPage = () => {
 
       <section className="section section-3">
         <div className="column">
-          <img src="../../../public/images/thumbnail-1.jpg" alt="See All Groups Image" className="section section-3 thumbnail"/>
+          <img src="https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b416a2e8f80879c372274d_thumbnail-1.jpg" alt="See All Groups Image" className="section section-3 thumbnail"/>
           <a href="/groups" className="link">See all groups</a>
           <p>Find your niche in our diverse artistic collectives.</p>
         </div>
         <div className="column">
-          <img src="../../../public/images/thumbnail-2.jpg" alt="Find an Event Image" className="section section-3 thumbnail"/>
+          <img src="https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b416a223e267c81005476b_thumbnail-2.jpg" alt="Find an Event Image" className="section section-3 thumbnail"/>
           <a href="/events" className="link">Find an event</a>
           <p>From workshops to gallery nights, discover events that spark your creativity.</p>
         </div>
         <div className="column">
-          <img src="../../../public/images/thumbnail-3.jpg" alt="Start a Group Image" className="section section-3 thumbnail"/>
+          <img src="https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b416a2fe4f70889089ad06_thumbnail-3.jpg" alt="Start a Group Image" className="section section-3 thumbnail"/>
           <a href="/groups/new" className={`link ${!isLoggedIn ? 'disabled' : ''}`}>Start a group</a>
           <p>Lead your own creative journey and inspire others by starting a group.</p>
         </div>

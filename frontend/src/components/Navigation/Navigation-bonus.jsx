@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton-bonus';
 import './Navigation.css';
-import logo from '../../../public/woc-logo.png'
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
@@ -12,7 +11,7 @@ function Navigation({ isLoaded }) {
       <ul className="nav-list">
         <li>
           <NavLink to="/">
-            <img src={logo} alt="Offline" />
+            <img src="https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b416a2a783ad3ff1674de7_woc-logo.png" alt="Offline" />
           </NavLink>
         </li>
       </ul>
