@@ -19,7 +19,7 @@ const LandingPage = () => {
       </section>
 
       <section className="section section-2">
-        <h2>Discover & Participate</h2>
+        <h1>Discover & Participate</h1>
         <p>Explore a variety of art groups ranging from painting, music, dance and poetry. Join workshops, collaborate on projects, or attend exhibitions. Whether you're a beginner or a seasoned artist, there's a place for you.</p>
       </section>
 

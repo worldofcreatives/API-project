@@ -18,10 +18,10 @@ const GroupsPage = () => {
 return (
     <div className="groups-page">
       <nav>
-         <Link to="/events">Events</Link>
+         <Link to="/events" className="nonactive">Events</Link>
          <Link to="/groups" className="active">Groups</Link>
        </nav>
-        <p>Groups in Meetup</p>
+        <h1 className='head-text'>Groups in World of Creatives</h1>
       <div className="group-list">
         {groups.map(group => (
           <a href={`/groups/${group.id}`} key={group.id} className="group-container">

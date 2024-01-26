@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { thunkAddImage, thunkCreateGroup } from "../../store/groups";
+import './CreateGroupPage.css';
 
 const CreateGroupPage = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ const CreateGroupPage = () => {
 
 return (
     <section className="group-section">
-      <h1>Start a New Group</h1>
+      <h1 className="large">Start a New Group</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <h2>Set your group&apos;s location</h2>
@@ -90,7 +91,7 @@ return (
               onChange={(e) => setCity(e.target.value)}
             />
           </label>
-          <span id="comma-span">,</span>
+          <span id="comma-span"> , </span>
           <label htmlFor="state">
             <input
               type="text"
@@ -226,7 +227,7 @@ return (
           </div>
         </div>
         <div>
-          <button onSubmit={handleSubmit}>Create Group</button>
+          <button onSubmit={handleSubmit} className="main-button-1">Create Group</button>
         </div>
       </form>
     </section>
