@@ -77,7 +77,6 @@ button {
 }
 
 .main-button-2 {
-    padding: 10px 20px;
     background-color: #f3f3f3;
     color: #333;
     cursor: pointer;
@@ -99,12 +98,50 @@ button {
     cursor: default;
 }
 
+.small-button-1 {
+    background-color: #628C2A;
+    color: white;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: none;
+    padding: 10px 10px;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.small-button-1:hover {
+    background-color: #0a530e;
+}
+
+.small-button-2 {
+    background-color: #2d2d2d;
+    color: white;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: none;
+    padding: 10px 10px;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.small-button-2:hover {
+    background-color: #000000;
+}
+
 .menu-button {
-    width: 35px;
-    height: 35px;
+    width: 48px;
+    height: 48px;
     border: none;
     cursor: pointer;
     padding: 0;
+    border-radius: 8px;
+    border: 3px solid #628C2A;
 }
 
 input[type="text"] {
@@ -149,4 +186,8 @@ select {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+.profile-icon {
+    color: #628C2A;
 }
