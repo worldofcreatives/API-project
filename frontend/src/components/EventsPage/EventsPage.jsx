@@ -50,13 +50,13 @@ const EventsPage = () => {
             <a href={`/events/${event.id}`} key={event.id} className="event-container">
           <div>
             <img src={event.previewImage !== "No preview image found." ? event.previewImage : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"} alt={event.name} />
+          </div>
               <div>
                 <h2>{event.name}</h2>
                 {event.Venue ? <p>{event.Venue.city}, {event.Venue.state}</p> : <p>There is not a venue</p>}
                 <p>{formatDate(event.startDate)}</p>
                 <p>{event.numAttending} attending</p>
               </div>
-          </div>
             </a>
         ))}
       </div>
