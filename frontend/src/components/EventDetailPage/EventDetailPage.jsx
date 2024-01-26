@@ -82,7 +82,7 @@ console.log("🚀 ~ EventDetailPage ~ isEventCreator:", isEventCreator)
     if (result.message === "Successfully deleted") {
       navigate(`/groups/${groupDetails.id}`);
     } else {
-      // Handle error
+      // how should i handle error
     }
   };
 

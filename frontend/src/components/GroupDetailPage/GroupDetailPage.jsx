@@ -75,7 +75,7 @@ const GroupDetailPage = () => {
     if (result.message === "Successfully deleted") {
       navigate(`/groups`);
     } else {
-      // Handle error
+      // Handle errors here
     }
   };
 
@@ -85,7 +85,6 @@ const GroupDetailPage = () => {
         <Link to="/groups">Groups</Link>
       </nav>
       <div>
-        {/* Check if event.previewImage is not the specific string */}
         <img src={imageWithPreview !== undefined ? imageWithPreview.url : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"} alt={groupDetails.name} />
         <div>
           <h1>{groupDetails.name}</h1>

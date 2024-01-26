@@ -26,7 +26,6 @@ return (
         {groups.map(group => (
           <a href={`/groups/${group.id}`} key={group.id} className="group-container">
           <div>
-            {/* Check if event.previewImage is not the specific string */}
             <img src={group.previewImage !== "No preview image found." ? group.previewImage : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"} alt={group.name} />
           </div>
               <div>

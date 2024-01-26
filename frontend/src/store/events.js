@@ -53,7 +53,6 @@ export const fetchEventDetails = (eventId) => async (dispatch) => {
     }
   } catch (error) {
     console.error('Error fetching event details:', error);
-    // Optionally, you can dispatch an error action here if you have error handling in your state
   }
 };
 
@@ -102,7 +101,7 @@ export const thunkRemoveEvent = (eventId) => async (dispatch) => {
 
   if (response.ok) {
     dispatch(removeEvent(eventId));
-    return response.json(); // You can also handle success message here
+    return response.json();
   } else {
     const error = await response.json();
     return error;

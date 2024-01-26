@@ -35,10 +35,8 @@ const GroupEventList = () => {
             <a href={`/events/${event.id}`} key={event.id} className="event-container">
           <div key={event.id} className="event">
             <img src={event.previewImage} alt={event.name} />
-            {/* <p>{new Date(event.startDate).toLocaleString()}</p> */}
             <p>{formatDate(event.startDate)}</p>
             <h3>{event.name}</h3>
-            {/* Check if event.Venue exists before trying to access its properties */}
             {event.Venue ? <p>{event.Venue.city}, {event.Venue.state}</p> : <p>There is not a venue</p>}
             <p>{event.description}</p>
           </div>
@@ -52,10 +50,8 @@ const GroupEventList = () => {
             <a href={`/events/${event.id}`} key={event.id} className="event-container">
             <div key={event.id} className="event">
             <img src={event.previewImage} alt={event.name} />
-            {/* <p>{new Date(event.startDate).toLocaleString()}</p> */}
             <p>{formatDate(event.startDate)}</p>
             <h3>{event.name}</h3>
-            {/* Check if event.Venue exists before trying to access its properties */}
             {event.Venue ? <p>{event.Venue.city}, {event.Venue.state}</p> : <p>There is not a venue</p>}
             <p>{event.description}</p>
           </div>
