@@ -77,8 +77,32 @@ button {
 }
 
 .main-button-2 {
-    background-color: #f3f3f3;
-    color: #333;
+    background-color: #232323;
+    color: white;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: none;
+    padding: 15px 20px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.main-button-2:hover {
+    background-color: #000000;
+}
+
+.main-button-2:disabled {
+    background-color: #000;
+    color: #ccc;
+    cursor: default;
+}
+
+.warning-button {
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
     cursor: pointer;
     display: block;
     margin: 0 auto;
@@ -88,14 +112,8 @@ button {
     font-size: 16px;
 }
 
-.main-button-2:hover {
-    background-color: #c9c9c9;
-}
-
-.main-button-2:disabled {
-    background-color: #000;
-    color: #ccc;
-    cursor: default;
+.warning-button:hover {
+    background-color: rgb(173, 0, 0);
 }
 
 .small-button-1 {
@@ -178,6 +196,7 @@ textarea {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    min-height: 120px;
 }
 
 select {
@@ -188,6 +207,20 @@ select {
     border-radius: 4px;
 }
 
+input[type="number"] {
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 .profile-icon {
     color: #628C2A;
+}
+
+.errors {
+    color: white;
+    background-color: red;
+    padding: 10px;
 }

@@ -128,8 +128,8 @@ console.log("🚀 ~ EventDetailPage ~ isEventCreator:", isEventCreator)
                     {showDeleteConfirmation && (<div className='modal-backdrop'>
                       <div className='confirmation-modal'>
                         <p>Are you sure you want to delete this event?</p>
-                        <button onClick={handleConfirmDelete}  className='red'>Yes, delete this event</button>
-                        <button onClick={() => setShowDeleteConfirmation(false)}>No, keep this event.</button>
+                        <button onClick={handleConfirmDelete}  className='warning-button'>Yes, delete this event</button>
+                        <button onClick={() => setShowDeleteConfirmation(false)} className='main-button-2'>No, keep this event.</button>
                       </div>
                       </div>
                     )}

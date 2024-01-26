@@ -110,7 +110,7 @@ const EditGroupPage = () => {
                 onChange={(e) => setCity(e.target.value)}
               />
             </label>
-            <span id="comma-span">,</span>
+            <span id="comma-span"> , </span>
             <label htmlFor="state">
               <input
                 type="text"
@@ -221,7 +221,7 @@ const EditGroupPage = () => {
             </div>
           </div>
           <div>
-            <button onSubmit={handleSubmit}>Update Group</button>
+            <button onSubmit={handleSubmit} className="main-button-1">Update Group</button>
           </div>
         </form>
       </section>

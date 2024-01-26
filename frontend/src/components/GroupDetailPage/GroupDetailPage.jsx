@@ -113,8 +113,8 @@ const GroupDetailPage = () => {
               {showDeleteConfirmation && (<div className='modal-backdrop'>
                   <div className='confirmation-modal'>
                     <p>Are you sure you want to delete this group?</p>
-                    <button onClick={handleConfirmDelete}  className='red'>Yes, delete this group</button>
-                    <button onClick={() => setShowDeleteConfirmation(false)}>No, keep this event.</button>
+                    <button onClick={handleConfirmDelete}  className='warning-button'>Yes, delete this group</button>
+                    <button onClick={() => setShowDeleteConfirmation(false)} className='main-button-2'>No, keep this event.</button>
                   </div>
                   </div>
                 )}
