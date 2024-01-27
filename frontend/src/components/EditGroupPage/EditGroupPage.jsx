@@ -93,7 +93,7 @@ const EditGroupPage = () => {
 
   return (
       <section className="group-section">
-        <h1>Start a New Group</h1>
+        <h1 className="head-edit">Start a New Group</h1>
         <form onSubmit={handleSubmit}>
           <div>
             <h2>Set your group&apos;s location</h2>
@@ -110,7 +110,7 @@ const EditGroupPage = () => {
                 onChange={(e) => setCity(e.target.value)}
               />
             </label>
-            <span id="comma-span">,</span>
+            <span id="comma-span"> , </span>
             <label htmlFor="state">
               <input
                 type="text"
@@ -221,7 +221,7 @@ const EditGroupPage = () => {
             </div>
           </div>
           <div>
-            <button onSubmit={handleSubmit}>Update Group</button>
+            <button onSubmit={handleSubmit} className="main-button-1">Update Group</button>
           </div>
         </form>
       </section>

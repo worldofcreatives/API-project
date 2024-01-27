@@ -59,19 +59,20 @@ const CreateEventPage = () => {
 
   return (
     <div>
-      <h1>Create a new event for {groupName}</h1>
+      <h1 className="head-edit">Create a new event for {groupName}</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>
-            What is the name of your event?
+            <p>
+            What is the name of your event?</p>
             <input type="text" placeholder="Event Name" value={eventName} onChange={(e) => setEventName(e.target.value)} />
           </label>
-          {validationErrors.eventName && <p>{validationErrors.eventName}</p>}
+          {validationErrors.eventName && <p className='errors'>{validationErrors.eventName}</p>}
         </div>
 
         <div>
           <label>
-            Is this an in-person or online group?
+            <p>Is this an in-person or online group?</p>
             <select value={eventType} onChange={(e) => setEventType(e.target.value)}>
               <option value="In person">In person</option>
               <option value="Online">Online</option>
@@ -81,44 +82,44 @@ const CreateEventPage = () => {
 
         <div>
           <label>
-            What is the price for your event?
+          <p>What is the price for your event?</p>
             <input type="number" placeholder="0" value={eventPrice} onChange={(e) => setEventPrice(e.target.value)} />
           </label>
         </div>
 
         <div>
           <label>
-            When does your event start?
+            <p>When does your event start?</p>
             <input type="text" placeholder="MM/DD/YYYY, HH:mm AM" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
           </label>
-          {validationErrors.startDate && <p>{validationErrors.startDate}</p>}
+          {validationErrors.startDate && <p className='errors'>{validationErrors.startDate}</p>}
         </div>
 
         <div>
           <label>
-            When does your event end?
+            <p>When does your event end?</p>
             <input type="text" placeholder="MM/DD/YYYY, HH:mm PM" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
           </label>
-          {validationErrors.endDate && <p>{validationErrors.endDate}</p>}
+          {validationErrors.endDate && <p className='errors'>{validationErrors.endDate}</p>}
         </div>
 
         <div>
           <label>
-            Please add an image url for your event below:
+            <p>Please add an image url for your event below:</p>
             <input type="text" placeholder="Image URL" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
           </label>
-          {validationErrors.imageUrl && <p>{validationErrors.imageUrl}</p>}
+          {validationErrors.imageUrl && <p className='errors'>{validationErrors.imageUrl}</p>}
         </div>
 
         <div>
           <label>
-            Please describe your event:
+            <p>Please describe your event:</p>
             <textarea placeholder="Please include at least 30 characters." value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
           </label>
-          {validationErrors.description && <p>{validationErrors.description}</p>}
+          {validationErrors.description && <p className='errors'>{validationErrors.description}</p>}
         </div>
 
-        <button type="submit">Create Event</button>
+        <button type="submit" className='main-button-1'>Create Event</button>
       </form>
     </div>
   );

@@ -84,50 +84,60 @@ const GroupDetailPage = () => {
       <nav>
         <Link to="/groups">Groups</Link>
       </nav>
-      <div>
-        <img src={imageWithPreview !== undefined ? imageWithPreview.url : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"} alt={groupDetails.name} />
-        <div>
+      <div className='top-section'>
+        <div className='top-design-1'>
+        <div className='image-container'>
+        <img src={imageWithPreview !== undefined ? imageWithPreview.url : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"} alt={groupDetails.name} className='top-img' />
+        </div>
+        <div className='head-right'>
+        <div className='head-container'>
           <h1>{groupDetails.name}</h1>
           <p>{groupDetails.city}, {groupDetails.state}</p>
           <p>{groupDetails.numEvents} events · {groupDetails.private ? 'Private' : 'Public'}</p>
           <p>Organized by {groupDetails.Organizer?.firstName} {groupDetails.Organizer?.lastName}</p>
+          </div>
+          <div>
           {showJoinButton && (
         <button
             onClick={() => alert('Feature coming soon')}
-            className="join-group-button"
+            className="main-button-1"
           >
             Join this group
           </button>
         )}
         {isGroupCreator && (
           <div className="group-management-buttons">
-              <button onClick={handleCreateEvent} className="create-event-button">
+              <button onClick={handleCreateEvent} className="main-button-4">
                 Create event
               </button>
-              <button onClick={handleUpdateGroup} className="update-group-button">
+              <button onClick={handleUpdateGroup} className="main-button-2">
                 Update
               </button>
-              <button onClick={handleDeleteGroup} className="delete-group-button">
+              <button onClick={handleDeleteGroup} className="warning-button">
                 Delete
               </button>
               {showDeleteConfirmation && (<div className='modal-backdrop'>
                   <div className='confirmation-modal'>
                     <p>Are you sure you want to delete this group?</p>
-                    <button onClick={handleConfirmDelete}  className='red'>Yes, delete this group</button>
-                    <button onClick={() => setShowDeleteConfirmation(false)}>No, keep this event.</button>
+                    <button onClick={handleConfirmDelete}  className='warning-button'>Yes, delete this group</button>
+                    <button onClick={() => setShowDeleteConfirmation(false)} className='main-button-2'>No, keep this event.</button>
                   </div>
                   </div>
                 )}
             </div>
           )}
         </div>
-        <div>
+        </div>
+        </div>
+        <div className='bottom-bg'>
+        <div className='bottom-section'>
           <h1>Organizer</h1>
           <p>{groupDetails.Organizer?.firstName} {groupDetails.Organizer?.lastName}</p>
           <h1>What we&apos;re about</h1>
           <p>{groupDetails.about}</p>
           <h1>Events ({groupDetails.numEvents})</h1>
           {<GroupEventList />}
+        </div>
         </div>
       </div>
     </div>

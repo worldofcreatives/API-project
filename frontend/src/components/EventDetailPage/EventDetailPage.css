@@ -1,3 +1,7 @@
+.event-detail-page {
+  padding-top: 20px;
+}
+
 .modal-backdrop {
     position: fixed;
     top: 0;
@@ -21,4 +25,93 @@
 
   .red {
     background-color: red;
+    padding: 20px;
+    margin: 20px;
   }
+
+  .top-head {
+    padding: 2px;
+    margin: 20px;
+    width: 80%;
+    margin: auto;
+  }
+
+  .top-sec {
+    width: 80%;
+    margin: auto;
+  }
+
+  .sec-1 {
+    display: flex;
+    align-items: center;
+  }
+
+  .sec-1-left {
+    width: 50%;
+  }
+
+  .sec-1-left > img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    border: 3px solid #b1b1b1;
+  }
+
+  .sec-1-right {
+    width: 50%;
+    margin: 20px;
+  }
+
+  .sec-1-right-top {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    border-radius: 20px;
+    align-items: center;
+    border: 3px solid #b1b1b1;
+  }
+
+  .sec-1-right-top-l {
+    width: 30%;
+  }
+
+  .sec-1-right-top-l > img {
+    width: 100%;
+    height: auto;
+
+  }
+
+  .sec-1-right-top-r {
+    width: 70%;
+    padding-left: 10px;
+  }
+
+  .sec-1-right-bottom {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    border: 3px solid #b1b1b1;
+  }
+
+  .sec-1-rb {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+  }
+
+  .sec-1-rb > img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+
+  .sec-1-rb-2 > p{
+    margin: 0;
+  }
+
+.bg-color{
+  background-color: #ededed;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}

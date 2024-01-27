@@ -109,63 +109,74 @@ console.log("🚀 ~ EventDetailPage ~ isEventCreator:", isEventCreator)
 
   return (
     <div className="event-detail-page">
-        <nav>
+        <nav className='top-head'>
             <Link to="/events">Events</Link>
         </nav>
-        <div>
+        <div className='top-head'>
           <h1>{eventDetails.name}</h1>
           {groupDetails && groupDetails.Organizer &&
             <p>Hosted by {groupDetails.Organizer.firstName} {groupDetails.Organizer.lastName}</p>
           }
-                {isEventCreator && (
-                  <div className="event-management-buttons">
-                    <button onClick={handleUpdateEvent} className="update-event-button">
-                      Update
-                    </button>
-                    <button onClick={handleDeleteEvent} className="delete-event-button">
-                      Delete
-                    </button>
-                    {showDeleteConfirmation && (<div className='modal-backdrop'>
-                      <div className='confirmation-modal'>
-                        <p>Are you sure you want to delete this event?</p>
-                        <button onClick={handleConfirmDelete}  className='red'>Yes, delete this event</button>
-                        <button onClick={() => setShowDeleteConfirmation(false)}>No, keep this event.</button>
-                      </div>
-                      </div>
-                    )}
-                  </div>
-                )}
         </div>
-        <div>
-          <div>
-            <div>
+        <div className='bg-color'>
+          <div className='top-sec'>
+            <div className='sec-1'>
+              <div className='sec-1-left'>
               <img src={eventImageWithPreview !== undefined ? eventImageWithPreview.url : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"} alt={eventDetails.name} />
-            </div>
-            <div>
-              <div>
-              {<img src={groupImageWithPreview !== undefined ? groupImageWithPreview.url : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"} alt={groupDetails?.name} />
-              }
+              </div>
+            <div className='sec-1-right'>
+              <div className='sec-1-right-top'>
+                <div className='sec-1-right-top-l'>
+                  {<img src={groupImageWithPreview !== undefined ? groupImageWithPreview.url : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"} alt={groupDetails?.name} />
+                  }
+                </div>
+                <div className='sec-1-right-top-r'>
                 <h3>{eventDetails.Group.name}</h3>
                 <p>{eventDetails.Group.private ? 'Private' : 'Public'}</p>
-              </div>
-              <div>
-                <div>
-                  <img src="" alt="icon" />
-                  <p>START {formatDate(eventDetails.startDate)}</p>
-                  <p>END {formatDate(eventDetails.endDate)}</p>
                 </div>
-                <div>
-                  <img src="" alt="icon" />
+
+              </div>
+              <div className='sec-1-right-bottom'>
+                <div className='sec-1-rb'>
+                  <img src="https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b4455d5fdaa2fd9db6bdb0_002-timer.png" alt="icon" />
+                  <div className='sec-1-rb-2'>
+                    <p>START {formatDate(eventDetails.startDate)}</p>
+                    <p>END {formatDate(eventDetails.endDate)}</p>
+                  </div>
+                </div>
+                <div className='sec-1-rb'>
+                  <img src="https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b4455def5bff4964920030_003-return-on-investment.png" alt="icon" />
                   <p>Price: {formatPrice(eventDetails.price)}</p>
                 </div>
-                <div>
-                  <img src="" alt="icon" />
+                <div className='sec-1-rb'>
+                  <img src="https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b4455def5bff496492002d_001-placeholder.png" alt="icon" />
                   <p>{eventDetails.type}</p>
+                </div>
+                <div className='sec-1-buttons'>
+                  {isEventCreator && (
+                    <div className="event-management-buttons">
+                      <button onClick={handleUpdateEvent} className="main-button-1">
+                        Update
+                      </button>
+                      <button onClick={handleDeleteEvent} className="warning-button">
+                        Delete
+                      </button>
+                      {showDeleteConfirmation && (<div className='modal-backdrop'>
+                        <div className='confirmation-modal'>
+                          <p>Are you sure you want to delete this event?</p>
+                          <button onClick={handleConfirmDelete}  className='warning-button'>Yes, delete this event</button>
+                          <button onClick={() => setShowDeleteConfirmation(false)} className='main-button-2'>No, keep this event.</button>
+                        </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
+            </div>
           </div>
-          <div>
+          <div className='top-sec'>
             <h1>Details</h1>
             <p>{eventDetails.description}</p>
           </div>

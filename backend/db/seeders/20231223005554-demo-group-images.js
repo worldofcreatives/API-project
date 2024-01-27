@@ -12,35 +12,35 @@ module.exports = {
     await GroupImage.bulkCreate([
       {
         groupId: 1,
-        url: 'https://media.istockphoto.com/id/1368965646/photo/multi-ethnic-guys-and-girls-taking-selfie-outdoors-with-backlight-happy-life-style-friendship.jpg?s=612x612&w=0&k=20&c=qYST1TAGoQGV_QnB_vMd4E8jdaQUUo95Sa2JaKSl_-4=',
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b456c138f047fdc4b212c2_art-student-painting-1-600x400.jpg',
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         groupId: 2,
-        url: 'https://as2.ftcdn.net/v2/jpg/05/06/75/11/1000_F_506751155_fJ5Ko5T0wsTH7Q9VNwEgo6J81da8arlD.jpg',
-        preview: false,
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b456c10ad147f556dcdf97_25054.jpg',
+        preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         groupId: 3,
-        url: 'https://cdn.aarp.net/content/dam/aarp/about_aarp/aarp_policies/2020/1140-large-group-of-people.jpg',
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b456c102968299fefa8908_147597_00_2x.jpg',
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         groupId: 4,
-        url: 'https://www.cdc.gov/tobacco/campaign/tips/groups/social-media-images/groups-TW-600x321.jpg?_=82358',
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b456c17db264a75dca1aa9_unsplash-image-Cecb0_8Hx-o.jpg',
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         groupId: 5,
-        url: 'https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?cs=srgb&dl=pexels-fauxels-3184398.jpg&fm=jpg',
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b456c1ce759854081a4cd0_pexels-photo-7149156.jpeg',
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()

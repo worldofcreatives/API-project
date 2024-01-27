@@ -19,6 +19,74 @@
     z-index: 1001;
   }
 
-  .red {
-    background-color: red;
+  .bottom-bg {
+    background-color: rgb(248, 248, 248);
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-top: 20px;
+    border-radius: 10px;
+  border: 3px solid #dbdbdb;
   }
+
+.bottom-section {
+  max-width: 80%;
+  margin: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.top-section {
+  max-width: 80%;
+  margin: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+nav {
+  max-width: 80%;
+  margin: auto;
+}
+
+h1 {
+  text-align: left;
+}
+
+.image-container{
+  width: 50%;
+  align-self: center;
+
+}
+
+.image-container img {
+  border-radius: 10px;
+  border: 3px solid #dbdbdb;
+}
+
+.head-container{
+  width: 50%;
+}
+
+.head-container > h1{
+  font-size: 40px;
+}
+
+.top-img {
+  width: 100%; /* Adjust as needed */
+  height: auto;
+  float: left;
+}
+
+.top-design-1 {
+  display: flex;
+}
+
+.head-right {
+  width: 50%;
+  padding: 20px;
+}
+
+.group-management-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}

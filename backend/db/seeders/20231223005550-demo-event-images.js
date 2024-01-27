@@ -12,53 +12,68 @@ module.exports = {
     await EventImage.bulkCreate([
       {
         eventId: 1, // Replace with actual event IDs from Events table
-        url: 'https://groupgordon.com/wp-content/uploads/2022/04/Messe_Luzern_Corporate_Event.jpg',
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b4549eb3d0d266d008b904_Kusama_Header_cropped.png',
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         eventId: 1,
-        url: 'https://media.istockphoto.com/id/974238866/photo/audience-listens-to-the-lecturer-at-the-conference.jpg?s=612x612&w=0&k=20&c=p_BQCJWRQQtZYnQlOtZMzTjeB_csic8OofTCAKLwT0M=',
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b4549eb3d0d266d008b904_Kusama_Header_cropped.png',
         preview: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         eventId: 2,
-        url: 'https://cdn.pixabay.com/photo/2016/11/23/15/48/audience-1853662_640.jpg',
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b4549d5525915bb0b12bdd_singing-competition.jpg',
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         eventId: 3,
-        url: 'https://images.inc.com/uploaded_files/image/1920x1080/getty_479977238_253066.jpg',
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b4549df05a1fe4f3c963ed_banner.jpg',
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         eventId: 4,
-        url: 'https://www.mlm.com/wp-content/uploads/2014/01/52b3ac4c618e8.jpeg',
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/65b4549d0f1bbf5f5a805c77_visayas-art-fair-2022-main-1669111489.jpg',
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         eventId: 5,
-        url: 'https://www.mlm.com/wp-content/uploads/2014/01/52b3ac4c618e8.jpeg',
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/6009b6f91bf76c8e0a73621f_soul_night_by_ellysiumn_dce49m0-350t.jpg',
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         eventId: 6,
-        url: 'https://www.mlm.com/wp-content/uploads/2014/01/52b3ac4c618e8.jpeg',
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/5e294d0a74cbda7c9d18f761_man-jumping-leap-over-to-success-power-abstract-world-universe-inside-your-mind-watercolor-painting-art-hand-drawn-benjavisa.jpg',
+        preview: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        eventId: 7,
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/5e295d3c6cab06d08d16b305_public%20speaking%20dwayne%20picture3.jpg',
+        preview: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        eventId: 8,
+        url: 'https://uploads-ssl.webflow.com/5d6dde2cb8496e3f669a4b75/5e29647e0ab615e29d554447_creative%20face.jpg',
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       }
+
     ], { validate: true });
   },
 

@@ -10,3 +10,10 @@ form {
     max-width: 800px;
     margin: auto;
 }
+
+.head-edit {
+    width: 80%;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}

@@ -13,8 +13,8 @@ module.exports = {
       {
         venueId: 1, // valid venue IDs
         groupId: 1, // valid group IDs
-        name: 'Tech Conference 2021',
-        description: 'An annual conference for tech enthusiasts.',
+        name: 'Chromatic Convergence',
+        description: 'An annual gathering where artists from around the world showcase their work that focuses on the exploration of color and its emotional impact.',
         type: 'In person',
         capacity: 500,
         price: 299.40,
@@ -26,8 +26,8 @@ module.exports = {
       {
         venueId: 2,
         groupId: 2,
-        name: 'Local Hack Day',
-        description: 'Hackathon event for local developers.',
+        name: 'Melody Marathon',
+        description: 'A day-long music festival showcasing a lineup of up-and-coming bands and solo artists across multiple stages.',
         type: 'In person',
         capacity: 100,
         price: 0, //free event
@@ -39,8 +39,8 @@ module.exports = {
       {
         venueId: 2,
         groupId: 2,
-        name: 'Just Another Local Hack Day',
-        description: 'Hackathon event for local developers.',
+        name: 'Harmonic Heights',
+        description: 'A concert series held atop a city skyscraper, offering an intimate setting with acoustic performances by singer-songwriters.',
         type: 'In person',
         capacity: 100,
         price: 0, //free event
@@ -52,8 +52,8 @@ module.exports = {
       {
         venueId: 2,
         groupId: 2,
-        name: 'Past Local Hack Day',
-        description: 'Hackathon event for local developers.',
+        name: 'Bass and Beats Bash',
+        description: 'An electronic music extravaganza featuring famous DJs, laser shows, and dance parties that last until dawn.',
         type: 'In person',
         capacity: 100,
         price: 0, //free event
@@ -65,8 +65,8 @@ module.exports = {
       {
         venueId: 2,
         groupId: 2,
-        name: 'Just Another Future Local Hack Day',
-        description: 'Hackathon event for local developers.',
+        name: 'Major 7 Live',
+        description: 'Come one. Come all! A music festival that celebrates the diversity of the human experience through the power of music.',
         type: 'In person',
         capacity: 100,
         price: 0, //free event
@@ -78,7 +78,7 @@ module.exports = {
       {
         groupId: 5,
         name: 'Virtual Reality Expo',
-        description: 'Explore the latest in VR technology.',
+        description: 'Explore the latest in Music VR technology.',
         type: 'Online',
         capacity: 200,
         price: 150.11,
@@ -90,8 +90,8 @@ module.exports = {
       {
         venueId: 3,
         groupId: 3,
-        name: 'Outdoor Photography Workshop',
-        description: 'Learn outdoor photography techniques.',
+        name: 'Rhythmic Rendezvous',
+        description: 'A celebration of dance, this event features performances from various dance troupes specializing in everything from ballet to breakdance.',
         type: 'In person',
         capacity: 50,
         price: 200,
@@ -103,8 +103,8 @@ module.exports = {
       {
         venueId: 2,
         groupId: 4,
-        name: 'Cooking Masterclass',
-        description: 'Cooking class by renowned chef.',
+        name: 'Canvas Carnival',
+        description: 'A vibrant, family-friendly festival where local artists paint live murals, and the public can participate in various interactive art installations.',
         type: 'Online',
         capacity: 30,
         price: 100,
