@@ -32,11 +32,13 @@ const GroupEventList = () => {
       <section className="upcoming-events">
         <h2>Upcoming Events</h2>
         {upcomingEvents.map(event => (
-            <a href={`/events/${event.id}`} key={event.id} className="event-container">
+            <a href={`/events/${event.id}`} key={event.id} className="group-container">
           <div key={event.id} className="event">
             <img src={event.previewImage} alt={event.name} />
+            </div>
+            <div>
             <p>{formatDate(event.startDate)}</p>
-            <h3>{event.name}</h3>
+            <h2>{event.name}</h2>
             {event.Venue ? <p>{event.Venue.city}, {event.Venue.state}</p> : <p>There is not a venue</p>}
             <p>{event.description}</p>
           </div>
@@ -47,11 +49,13 @@ const GroupEventList = () => {
       <section className="past-events">
         <h2>Past Events</h2>
         {pastEvents.map(event => (
-            <a href={`/events/${event.id}`} key={event.id} className="event-container">
+            <a href={`/events/${event.id}`} key={event.id} className="group-container">
             <div key={event.id} className="event">
             <img src={event.previewImage} alt={event.name} />
+            </div>
+            <div>
             <p>{formatDate(event.startDate)}</p>
-            <h3>{event.name}</h3>
+            <h2>{event.name}</h2>
             {event.Venue ? <p>{event.Venue.city}, {event.Venue.state}</p> : <p>There is not a venue</p>}
             <p>{event.description}</p>
           </div>

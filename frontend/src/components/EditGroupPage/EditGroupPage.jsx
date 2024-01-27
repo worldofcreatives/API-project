@@ -93,7 +93,7 @@ const EditGroupPage = () => {
 
   return (
       <section className="group-section">
-        <h1>Start a New Group</h1>
+        <h1 className="head-edit">Start a New Group</h1>
         <form onSubmit={handleSubmit}>
           <div>
             <h2>Set your group&apos;s location</h2>

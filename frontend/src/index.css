@@ -76,6 +76,23 @@ button {
     cursor: default;
 }
 
+.main-button-4 {
+    background-color: #628C2A;
+    color: white;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: none;
+    padding: 15px 20px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.main-button-4:hover {
+    background-color: #0a530e;
+}
+
 .main-button-2 {
     background-color: #232323;
     color: white;
@@ -110,6 +127,7 @@ button {
     border: none;
     padding: 15px 20px;
     font-size: 16px;
+    margin-top: 10px;
 }
 
 .warning-button:hover {
