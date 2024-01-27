@@ -12,8 +12,8 @@ module.exports = {
     await Group.bulkCreate([
       {
         organizerId: 1,
-        name: 'Outdoor Adventures',
-        about: 'A group for outdoor enthusiasts',
+        name: 'Palette Pioneers',
+        about: 'A collective of artists who experiment with unconventional materials and techniques to create thought-provoking pieces.',
         type: 'In person',
         private: false,
         city: 'San Francisco',
@@ -23,8 +23,8 @@ module.exports = {
       },
       {
         organizerId: 1,
-        name: 'Tech Talks',
-        about: 'Discussing the latest in technology',
+        name: 'Strings Synergy',
+        about: 'A quartet that combines classical string instruments with modern music genres to create a unique fusion sound.',
         type: 'Online',
         private: false,
         city: 'New York',
@@ -34,8 +34,8 @@ module.exports = {
       },
       {
         organizerId: 1,
-        name: 'Book Club',
-        about: 'Monthly fiction and non-fiction book discussions',
+        name: 'The Gravity Defiers',
+        about: 'A dance troupe known for their high-energy, acrobatic performances that blend street dance with contemporary.',
         type: 'In person',
         private: true,
         city: 'Chicago',
@@ -45,8 +45,8 @@ module.exports = {
       },
       {
         organizerId: 2,
-        name: 'Movie Nights',
-        about: 'Weekly gatherings to watch and discuss movies',
+        name: 'The Bronze Guild',
+        about: 'A group of sculptors dedicated to reviving classical bronze casting methods to produce statues that celebrate historical narratives.',
         type: 'In person',
         private: false,
         city: 'Los Angeles',
@@ -56,8 +56,8 @@ module.exports = {
       },
       {
         organizerId: 3,
-        name: 'Culinary Cooks',
-        about: 'Share recipes and cooking techniques',
+        name: 'Echoes of Electronica',
+        about: 'A band that pushes the boundaries of electronic music, known for their immersive live shows that incorporate virtual reality experiences.',
         type: 'Online',
         private: false,
         city: 'Seattle',

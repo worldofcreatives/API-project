@@ -59,7 +59,7 @@ const CreateEventPage = () => {
 
   return (
     <div>
-      <h1>Create a new event for {groupName}</h1>
+      <h1 className="head-edit">Create a new event for {groupName}</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>
