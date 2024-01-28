@@ -233,6 +233,14 @@ input[type="number"] {
     border-radius: 4px;
 }
 
+input[type="datetime-local"] {
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 .profile-icon {
     color: #628C2A;
 }

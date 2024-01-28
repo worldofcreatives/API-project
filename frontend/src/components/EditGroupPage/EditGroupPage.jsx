@@ -10,10 +10,11 @@ const EditGroupPage = () => {
 
     const location = useLocation();
 
-    const { groupId, groupName, groupCity, groupState, groupAbout, groupType, groupPrivate, userId } = location.state;
-    console.log("🚀 ~ EditGroupPage ~ location.state:", location.state)
+    const defaultState = { groupId: null , groupName: null , groupCity: null , groupState: null , groupAbout: null , groupType: null , groupPrivate: null , userId: null  };
 
+    const thisState = location.state || defaultState;
 
+    const { groupId, groupName, groupCity, groupState, groupAbout, groupType, groupPrivate, userId } = thisState;
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -21,21 +22,17 @@ const EditGroupPage = () => {
     const user = useSelector(state => state.session.user);
     console.log("🚀 ~ EditGroupPage ~ user:", user)
 
-    if (user === null || userId !== user.id) {
-        navigate("/");
-      }
-
-    const [city, setCity] = useState(groupCity);
-    const [state, setState] = useState(groupState);
-    const [name, setName] = useState(groupName);
-    const [about, setAbout] = useState(groupAbout);
-    const [type, setType] = useState(groupType);
+    const [city, setCity] = useState(groupCity || '');
+    const [state, setState] = useState(groupState || '');
+    const [name, setName] = useState(groupName || '');
+    const [about, setAbout] = useState(groupAbout || '');
+    const [type, setType] = useState(groupType || '');
     const [privacy, setPrivacy] = useState(groupPrivate ? 'true' : 'false');
     const [validationErrors, setValidationErrors] = useState({});
 
 
     useEffect(() => {
-      if (user === null) {
+      if (user === null || userId !== user.id) {
           navigate("/");
           setCity('');
           setState('');
@@ -44,6 +41,16 @@ const EditGroupPage = () => {
           setType('');
           setPrivacy('');
       }
+
+      if (groupId === null) {
+        navigate("/groups");
+        setCity('');
+        setState('');
+        setName('');
+        setAbout('');
+        setType('');
+        setPrivacy('');
+    }
   }, [user, navigate]);
 
 
@@ -93,7 +100,7 @@ const EditGroupPage = () => {
 
   return (
       <section className="group-section">
-        <h1 className="head-edit">Start a New Group</h1>
+        <h1 className="head-edit">Update your New Group</h1>
         <form onSubmit={handleSubmit}>
           <div>
             <h2>Set your group&apos;s location</h2>
