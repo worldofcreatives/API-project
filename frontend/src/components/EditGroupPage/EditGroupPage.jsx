@@ -32,7 +32,7 @@ const EditGroupPage = () => {
 
 
     useEffect(() => {
-      if (user === null || userId !== user.id) {
+      if (user === null || userId !== user.id || groupId === null) {
           navigate("/");
           setCity('');
           setState('');
@@ -41,16 +41,6 @@ const EditGroupPage = () => {
           setType('');
           setPrivacy('');
       }
-
-      if (groupId === null) {
-        navigate("/groups");
-        setCity('');
-        setState('');
-        setName('');
-        setAbout('');
-        setType('');
-        setPrivacy('');
-    }
   }, [user, navigate]);
 
 
