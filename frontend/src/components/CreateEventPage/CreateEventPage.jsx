@@ -90,7 +90,7 @@ const CreateEventPage = () => {
         <div>
           <label>
             <p>When does your event start?</p>
-            <input type="text" placeholder="MM/DD/YYYY, HH:mm AM" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+            <input type="datetime-local" placeholder="MM/DD/YYYY, HH:mm AM" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
           </label>
           {validationErrors.startDate && <p className='errors'>{validationErrors.startDate}</p>}
         </div>
@@ -98,7 +98,7 @@ const CreateEventPage = () => {
         <div>
           <label>
             <p>When does your event end?</p>
-            <input type="text" placeholder="MM/DD/YYYY, HH:mm PM" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+            <input type="datetime-local" placeholder="MM/DD/YYYY, HH:mm PM" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
           </label>
           {validationErrors.endDate && <p className='errors'>{validationErrors.endDate}</p>}
         </div>
