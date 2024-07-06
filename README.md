@@ -1,5 +1,16 @@
 # Offline
 
+Kick start with:
+
+# In backend directory
+npm install
+npm start
+
+# In frontend directory
+npm install
+npm run dev
+
+
 ## Database Schema Design
 
 ![meetup-database-schema]

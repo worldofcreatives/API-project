@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { thunkCreateEvent, thunkAddEventImage } from '../../store/events'; // Adjust path as needed
+import { thunkCreateEvent, thunkAddEventImage } from '../../store/events';
 
 const CreateEventPage = () => {
   const navigate = useNavigate();
